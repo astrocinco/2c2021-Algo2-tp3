@@ -1,27 +1,29 @@
-class _Arista:
-    def __init__(self):
-        self.atributo1 = None # Poner nombre correcto. Esto es un ejemplo
+class _Vertice:
+    def __init__(self, dato):
+        self.dato = dato
 
 
 class Grafo:
     def __init__(self):
-        self.atributo1 = None # Poner nombre correcto. Esto es un ejemplo
-        self.atributo2 = None # Poner nombre correcto. Esto es un ejemplo
+        dict = {}
 
     def __str__(self): # Revisar si esto es así
         pass
 
     def agregar_vertice(self, vertice):
-        pass
+        self.dict[vertice] = {}
 
     def borrar_vertice(self, vertice):
-        pass
+        self.dict.pop(vertice) # IR UNO POR UNO Y SACAR DEL RESTO DE VERTICES CUALQUIER CONEXION CON ESTE
+        # HACER
 
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
-        pass 
+        # Y SI NO EXISTE ALGUNO DE LOS DOS VERTICES?
+        self.dict[vertice_1][vertice_2] = peso
 
     def borrar_arista(self, vertice_1, vertice_2):
-        pass
+        # Revisar que vertice_2 estaba en vertice 1?
+        self.dict[vertice_1].pop(vertice_2)
 
     def estan_unidos(self, vertice_1, vertice_2):
         pass
