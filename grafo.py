@@ -1,9 +1,10 @@
 import random
 
-class _Vertice:
+"""
+class _Vertice:#creo que no hace falta esto, solo contiene un dato
     def __init__(self, dato):
         self.dato = dato
-
+"""
 
 class Grafo:
     def __init__(self):
@@ -13,19 +14,17 @@ class Grafo:
         pass
 
     def agregar_vertice(self, vertice):
-        guardar = _Vertice(vertice)
-        self.dic[guardar] = {}
+        self.dic[vertice] = {}
         return True
 
     def borrar_vertice(self, vertice):
         if vertice not in self.dic:
             return False
-        self.dic.pop(vertice) 
-        for i in self.dic:
-            del i[vertice] # Del no da error cuando intentás sacar y el elemento no está en el diccionario
+        self.dic.pop(vertice)
+
+            # Del no da error cuando intentás sacar y el elemento no está en el diccionario
 
             #no conviene fijarnos si esta y usar una que si de error cuando esta en lugares equivocados?
-
 
         return True
 
@@ -52,19 +51,16 @@ class Grafo:
         return self.dic[vertice_1][vertice_2]
 
     def obtener_vertices(self):
-        #elementos = self.dic.keys()
-        datos = {}
-        for i in self.dic:
-            datos[i.dato] = i.dato
-        return datos
+        elementos = self.dic.keys()
+        return elementos
 
     def vertice_aleatorio(self):
         lista = self.obtener_vertices()
         vertice = random.choice(list(lista))
         return vertice
 
-    def aydacentes(self, vertice):
-        return self.dic[vertice].keys()
+    def adyacentes(self, vertice):
+        return list(self.dic[vertice])
 
     def _pertenece(self, vertice):
         return vertice in self.dic
