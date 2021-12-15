@@ -7,22 +7,21 @@ class _Vertice:
 
 class Grafo:
     def __init__(self):
-        dict = {}
+        self.dic = {}
 
     def __str__(self): # Revisar si esto es así
         pass
 
     def agregar_vertice(self, vertice):
-        if type(vertice) != _Vertice: # No se si se ecribe así
-            return False # Tal vez esto debería ser Raise Error
-        self.dict[vertice] = {}
+        guardar = _Vertice(vertice)
+        self.dic[guardar] = {}
         return True
 
     def borrar_vertice(self, vertice):
-        if vertice not in self.dict:
+        if vertice not in self.dic:
             return False
-        self.dict.pop(vertice) 
-        for i in self.dict:
+        self.dic.pop(vertice) 
+        for i in self.dic:
             del i[vertice] # Del no da error cuando intentás sacar y el elemento no está en el diccionario
 
             #no conviene fijarnos si esta y usar una que si de error cuando esta en lugares equivocados?
@@ -33,34 +32,45 @@ class Grafo:
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
         if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
             return False
-        self.dict[vertice_1][vertice_2] = peso
+        self.dic[vertice_1][vertice_2] = peso
         return True
 
     def borrar_arista(self, vertice_1, vertice_2):
         if not self.estan_unidos(vertice_1, vertice_2):
             return False
-        self.dict[vertice_1].pop(vertice_2)
+        self.dic[vertice_1].pop(vertice_2)
         return True
 
     def estan_unidos(self, vertice_1, vertice_2):
         if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
             return False # Tal vez esto debería ser Raise Error
-        return vertice_2 in self.dict[vertice_1]
+        return vertice_2 in self.dic[vertice_1]
 
     def peso_arista(self, vertice_1, vertice_2):
         if not self.estan_unidos(vertice_1, vertice_2):
             return 0
-        return self.dict[vertice_1][vertice_2]
+        return self.dic[vertice_1][vertice_2]
 
     def obtener_vertices(self):
-        return self.dict.keys()
+        #elementos = self.dic.keys()
+        datos = {}
+        for i in self.dic:
+            datos[i.dato] = i.dato
+        return datos
 
     def vertice_aleatorio(self):
         lista = self.obtener_vertices()
-        return random.choice(lista)
+        vertice = random.choice(list(lista))
+        return vertice
 
     def aydacentes(self, vertice):
-        return self.dict[vertice].keys()
+        return self.dic[vertice].keys()
 
     def _pertenece(self, vertice):
-        return vertice in self.dict
+        return vertice in self.dic
+
+
+
+
+
+
