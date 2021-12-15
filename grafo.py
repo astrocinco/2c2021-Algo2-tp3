@@ -24,6 +24,10 @@ class Grafo:
         self.dict.pop(vertice) 
         for i in self.dict:
             del i[vertice] # Del no da error cuando intentás sacar y el elemento no está en el diccionario
+
+            #no conviene fijarnos si esta y usar una que si de error cuando esta en lugares equivocados?
+
+
         return True
 
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
