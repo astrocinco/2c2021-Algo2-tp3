@@ -78,11 +78,19 @@ def pruebas_varias():
 
 	grafo.agregar_arista("1","2")
 	grafo.agregar_arista("2","3")
-	
+
+
+	camino_mas_corto(grafo,"1","3")
 
 
 
-	camino = camino_mas_corto(grafo,2,3)
+def pruebas_input():
+	orden = input("dale\n")
+	orden.split(' ')
+	while orden!= "fin":
+		print(orden[0])
+		orden = input("dale")
+
 
 
 
@@ -94,6 +102,6 @@ def pruebas():
 	#pruebas_volumen()
 	pruebas_varias()
 	print("")
-
+	pruebas_input()
 
 pruebas()

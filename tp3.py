@@ -1,3 +1,4 @@
+from typing import Deque
 from grafo import *
 import heapq
 
@@ -20,13 +21,45 @@ def dijkstra(grafo,vertices,padres, origen,destino):
     
     return padres,distancia[destino]
 
+def reconstruir_camino(padres, inicio, fin):
+    v = fin
+    camino = []
+    while v != inicio:
+        camino.append(v)
+        v = padres[v]
+    camino.append(inicio)
+    return camino[::-1]
 
+def bfs(grafo, inicio,destino, visitados, orden, padres):
+    padres[inicio] = None
+    orden[inicio] = 0
+    visitados.add(inicio)
+    q = Deque()
+    q.append(inicio)
+    while q:
+        v = q.pop()
+        for w in grafo.adyacentes(v):
+            orden[w] = orden[v] + 1
+            padres[w] = v
+            if w == destino:
+                return padres
+            visitados.add(w)
+            q.append(w)
+
+    return padres
 
 def camino_mas_corto(grafo,origen,destino):
-    padres = []
-    dist = 0
-    dijkstra(grafo,grafo.obtener_vertices(),padres,origen,destino)
-    #todavia no anda
+    visitados = set()
+    padres = {}
+    orden = {}
+    bfs(grafo,origen,destino,visitados,orden,padres)
+    camino = reconstruir_camino(padres,origen,destino)
+    for i in range(len(camino)-1):
+        print(camino[i],"-> ",end="")
+        
+    print(camino[i+1],end="")
+    print("")
+    print("Costo: ",len(camino))
 
 '''
     vertices = grafo.obtener_vertices()
