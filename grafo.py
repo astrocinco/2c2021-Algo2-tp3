@@ -64,9 +64,3 @@ class Grafo:
 
     def _pertenece(self, vertice):
         return vertice in self.dic
-
-
-
-
-
-

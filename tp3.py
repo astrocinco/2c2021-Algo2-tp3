@@ -94,9 +94,3 @@ def diametro(grafo):
 def todos_en_rango(grafo):
     #bfs
     pass
-
-
-
-
-
-
