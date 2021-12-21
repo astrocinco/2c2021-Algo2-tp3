@@ -2,7 +2,7 @@ from typing import Deque
 from grafo import *
 import heapq
 
-def dijkstra(grafo,vertices,padres, origen,destino):
+def dijkstra(grafo,vertices,padres, origen,destino): #O(E*Log(v))
     distancia = {}
     for v in grafo.obtener_vertices():
             distancia[v] = float('inf')
@@ -30,7 +30,7 @@ def reconstruir_camino(padres, inicio, fin):
     camino.append(inicio)
     return camino[::-1]
 
-def bfs(grafo, inicio,destino, visitados, orden, padres):
+def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E)
     padres[inicio] = None
     orden[inicio] = 0
     visitados.add(inicio)
@@ -48,7 +48,7 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):
 
     return padres
 
-def camino_mas_corto(grafo,origen,destino):
+def camino_mas_corto(grafo,origen,destino): #O(V+E)
     visitados = set()
     padres = {}
     orden = {}
@@ -80,7 +80,6 @@ def caminos_minimos(grafo,origen): #necesita cola
     return distancia
 
 
-
 def diametro(grafo):
     max_min_dist = 0
     for v in grafo:
@@ -89,6 +88,13 @@ def diametro(grafo):
             if distancias[w] > max_min_dist:
                 max_min_dist = distancias[w]
     return max_min_dist
+
+
+
+def todos_en_rango(grafo):
+    #bfs
+    pass
+
 
 
 

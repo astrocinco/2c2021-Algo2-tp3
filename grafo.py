@@ -1,7 +1,7 @@
 import random
 
 """
-class _Vertice:#creo que no hace falta esto, solo contiene un dato
+class _Vertice: #no hace falta esto, solo contiene un dato
     def __init__(self, dato):
         self.dato = dato
 """

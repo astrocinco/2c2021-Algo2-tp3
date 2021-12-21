@@ -91,11 +91,12 @@ def pruebas_varias():
 
 
 
-def pruebas_input():
+def pruebas_input():#quiero conseguir solamente la primera palabra
 	orden = input("dale\n")
 	print(type(orden))
 
 	orden.split('	')
+
 	while orden!= "fin":
 		print(orden[0])
 		orden = input("dale")
