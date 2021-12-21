@@ -29,6 +29,10 @@ def pruebas_vertices():
 def pruebas_aristas():
 	print("PRUEBAS CON ARISTAS")
 	grafo = Grafo()
+
+	numero = 4
+
+
 	grafo.agregar_vertice("messi")
 	grafo.agregar_vertice("haaland")
 	grafo.agregar_vertice("mbappe")
@@ -43,12 +47,15 @@ def pruebas_aristas():
 	camino = camino_mas_corto(grafo,"messi","mbappe")
 	print("camino mas corto entre messi y mbappe",camino)
 
-
+	grafo.agregar_arista("messi",4)
+	print("-creo una arista a algo que no es un vertice. estan unidos: ", grafo.estan_unidos("messi",4))
 	print("-Messi y mbappe estan unidos: ",grafo.estan_unidos("messi","mbappe"))
 	print("-adyacentes de messi: ",grafo.adyacentes("messi"))
 	print("borro arista entre messi y mbappe")
 	grafo.borrar_arista("messi","mbappe")
 	print("-adyacentes de messi: ",grafo.adyacentes("messi"))
+
+
 
 '''
 def pruebas_volumen():
