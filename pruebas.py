@@ -86,7 +86,9 @@ def pruebas_varias():
 
 def pruebas_input():
 	orden = input("dale\n")
-	orden.split(' ')
+	print(type(orden))
+
+	orden.split('	')
 	while orden!= "fin":
 		print(orden[0])
 		orden = input("dale")

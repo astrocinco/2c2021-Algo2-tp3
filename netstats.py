@@ -4,18 +4,20 @@
 # Wiki ya parseada - REDUCIDO: https://drive.google.com/file/d/1b0fZPVE2e1z4TGFL9n4ZiqAnEMAU25rs/view
 
 from grafo import *
+from tp3 import *
 
 def esperar_comando():
     corriendo = True
     comando = input("")
-
+    
 
     while corriendo:
         if comando == "listar_operaciones":
             print("camino")
-            
+            #van a haber mas
 
-
+        elif comando == "asd":
+            return 
 
 
 

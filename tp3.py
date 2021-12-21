@@ -61,10 +61,36 @@ def camino_mas_corto(grafo,origen,destino):
     print("")
     print("Costo: ",len(camino))
 
-'''
-    vertices = grafo.obtener_vertices()
+
+def caminos_minimos(grafo,origen): #necesita cola
+    cola = Deque()
     visitados = set()
-'''
+    distancia = {}
+    distancia[origen] = 0
+    visitados.add(origen)
+    cola.append(origen)
+
+    while cola:
+        v = cola.pop()
+        for w in grafo.adyacentes(v):
+            if w not in visitados:
+                distancia[w] = distancia[v] + 1 #+1 o +peso arista
+                cola.append(w)
+                visitados.add(w)
+    return distancia
+
+
+
+def diametro(grafo):
+    max_min_dist = 0
+    for v in grafo:
+        distancias = caminos_minimos(grafo,v) # implementar caminos minimos
+        for w in distancias:
+            if distancias[w] > max_min_dist:
+                max_min_dist = distancias[w]
+    return max_min_dist
+
+
 
 
 
