@@ -15,7 +15,7 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
                     if elem == linea[0]:
                         continue
                     grafo.agregar_arista(linea[0], elem)
-    return grafo
+    return grafo # Retornar None o algo así cuando no se pueda entrar al archivo -- HACER --
 
 
 

@@ -1,17 +1,14 @@
 import random
 
-"""
-class _Vertice: #no hace falta esto, solo contiene un dato
-    def __init__(self, dato):
-        self.dato = dato
-"""
+
 
 class Grafo:
     def __init__(self):
         self.dic = {}
 
     def __str__(self): # Revisar si esto es así
-        pass
+        for key in self.dic.keys():
+            print(key)
 
     def agregar_vertice(self, vertice):
         if self._pertenece(vertice):
