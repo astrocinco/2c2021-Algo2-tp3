@@ -6,7 +6,7 @@ class Grafo:
     def __init__(self):
         self.dic = {}
 
-    def __str__(self): # Revisar si esto es así
+    def __str__(self): # -- PROBAR --
         for key in self.dic.keys():
             print(key)
 
@@ -20,18 +20,11 @@ class Grafo:
         if vertice not in self.dic:
             return False
         self.dic.pop(vertice)
-
-            # Del no da error cuando intentás sacar y el elemento no está en el diccionario
-
-            #no conviene fijarnos si esta y usar una que si de error cuando esta en lugares equivocados?
-
         return True
 
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
         if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
             return False
-        # if vertice_1 == vertice_2:
-        #     return False
         self.dic[vertice_1][vertice_2] = peso
         return True
 
@@ -43,7 +36,7 @@ class Grafo:
 
     def estan_unidos(self, vertice_1, vertice_2):
         if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
-            return False # Tal vez esto debería ser Raise Error
+            return False 
         return vertice_2 in self.dic[vertice_1]
 
     def peso_arista(self, vertice_1, vertice_2):

@@ -38,6 +38,7 @@ def main():
 def ciclo():
     list_op = ["camino", "diametro"] # Esto va acá? O podría ir como variable global?
     ingreso_terminal = sys.argv
+    
     if len(ingreso_terminal) != 2:
         raise Exception # Elegir mejor excepción
     grafo_netstats = tp3.tsv_to_vert(ingreso_terminal[1])
