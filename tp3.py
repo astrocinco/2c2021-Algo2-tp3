@@ -4,17 +4,6 @@ import heapq
 import csv
 
 
-def pruebas_input_terminal(input_terminal):
-	with open(input_terminal[1]) as archi:
-		lineas = csv.reader(archi, delimiter='\t') # Revisar que no esté cargando todo el archivo en memoria
-		contador = 0
-		for linea in lineas:
-			#print(f"Acá el primer elemento de cada linea: {linea[0]} {contador}")
-			print(f"Lista entera: {linea}\n\n")
-			contador += 1
-	print("Fin")
-
-
 
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     with open(nombre_tsv) as archivo:
