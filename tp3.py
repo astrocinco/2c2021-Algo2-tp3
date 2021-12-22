@@ -2,14 +2,11 @@ from typing import Deque
 from grafo import *
 import heapq
 import csv
-
-
+from collections import deque
 
 def listar_operaciones(list_op):
-    for func in list_op:
-        print(func) # Imprimir así? o con otra cosa como stdout?
-
-
+     for func in list_op:
+         print(func) # Imprimir así? o con otra cosa como stdout?
 
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     with open(nombre_tsv) as archivo:
@@ -121,7 +118,15 @@ def diametro(grafo):
     return max_min_dist
 
 
+def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
+    visitados = set()
+    puestos = {}
+    orden = {}
+    bfs(grafo,pagina,None,visitados,orden,puestos)#O(v+e)
 
-def todos_en_rango(grafo):
-    #bfs
-    pass
+    cantidad = 0
+    for i in orden: #O(v)
+        if orden[i] == rango:
+            cantidad+=1
+    return cantidad
+    

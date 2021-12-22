@@ -92,19 +92,7 @@ def pruebas_varias():
 	tp3.camino_mas_corto(grafo,"1","3")
 
 
-
-def pruebas_input():#quiero conseguir solamente la primera palabra
-	orden = input("dale\n")
-	print(type(orden))
-
-	orden.split('	')
-
-	while orden!= "fin":
-		print(orden[0])
-		orden = input("dale")
-
-
-def pruebas():
+def prueba_input():
 	input_terminal = sys.argv
 	if len(input_terminal) != 1:
 		grafo = tp3.tsv_to_vert(input_terminal[1])
@@ -113,13 +101,37 @@ def pruebas():
 				print("Yas Queen")
 				print(f"Adyacentes de {vert} son: ", grafo.adyacentes(vert))
 		return
+	
+def pruebas_rango():
+	print("PRUEBAS TODOS EN RANGO")
+	grafo = Grafo()
+
+	grafo.agregar_vertice("1")
+	grafo.agregar_vertice("2")
+	grafo.agregar_vertice("3")
+	grafo.agregar_vertice("4")
+	grafo.agregar_vertice("5")
+	grafo.agregar_vertice("6")
+
+	grafo.agregar_arista("1","2")
+	grafo.agregar_arista("1","3")
+	grafo.agregar_arista("3","4")
+	grafo.agregar_arista("3","5")
+	grafo.agregar_arista("3","6")
+
+	cantidad = tp3.todos_en_rango(grafo,"1",2)
+	print(cantidad)
+	#pruebas basicas: funciona
+
+
+def pruebas():
 	pruebas_vertices()
 	print("")
 	pruebas_aristas()
 	print("")
-	#pruebas_volumen()
 	pruebas_varias()
 	print("")
-	pruebas_input()
-
+	prueba_input()
+	print("")
+	pruebas_rango()
 pruebas()
