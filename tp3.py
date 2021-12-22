@@ -111,11 +111,11 @@ def caminos_minimos(grafo,origen): #necesita cola
 def diametro(grafo):#fijarse si anda
     max_min_dist = 0
     for v in grafo:
-        distancias = caminos_minimos(grafo,v) # implementar caminos minimos
+        distancias = caminos_minimos(grafo,v) 
         for w in distancias:
             if distancias[w] > max_min_dist:
                 max_min_dist = distancias[w]
-    return max_min_dist
+    return max_min_dist #est esta mal: tiene que devolver el camino
 
 
 def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)

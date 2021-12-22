@@ -13,7 +13,6 @@ def esperar_comando():
     corriendo = True
     comando = input("")
     
-
     while corriendo:
         if comando == "listar_operaciones":
             print("camino")
@@ -22,13 +21,6 @@ def esperar_comando():
 
         elif comando == "asd":
             return 
-
-def main():
-    #validar_parametros()
-
-    grafo = Grafo()
-
-    esperar_comando()
 
 
 def ciclo():
@@ -46,10 +38,6 @@ def ciclo():
     input_terminal = list(input().split(" "))
 
     while input_terminal != EOFError:
-        try: 
-            input_terminal = list(input().split(" "))
-        except EOFError:
-            break # Terminar el ciclo cuando el input sea Control+D
         if input_terminal == "listar_operaciones":
             tp3.listar_operaciones(list_op)
         elif input_terminal[0] == "camino":
@@ -62,10 +50,10 @@ def ciclo():
             tp3.camino_mas_corto(grafo_netstats, parametros[0], parametros[1])
 
         elif input_terminal[0] == "rango":
-            tp3.funcion2(grafo_netstats)
+            tp3.todos_en_rango(grafo_netstats)
 
         elif input_terminal[0] == "diametro":
-            tp3.funcion3(grafo_netstats)
+            tp3.diametro(grafo_netstats)
 
         else:
             print(INPUT_ERROR_NO_EXISTE_COMANDO)
