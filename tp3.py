@@ -1,11 +1,39 @@
 from typing import Deque
 from grafo import *
 import heapq
+import csv
+
+
+def pruebas_input_terminal(input_terminal):
+	with open(input_terminal[1]) as archi:
+		lineas = csv.reader(archi, delimiter='\t') # Revisar que no esté cargando todo el archivo en memoria
+		contador = 0
+		for linea in lineas:
+			#print(f"Acá el primer elemento de cada linea: {linea[0]} {contador}")
+			print(f"Lista entera: {linea}\n\n")
+			contador += 1
+	print("Fin")
+
+
+
+def tsv_to_vert(nombre_tsv, grafo = Grafo()):
+    with open(nombre_tsv) as archivo:
+        cont = csv.reader(archivo, delimiter="\t") # Revisar carg mem, revisar ""
+        for linea in cont:
+            for elem in linea:
+                grafo.agregar_vertice(elem)
+                if len(linea) != 1:
+                    if elem == linea[0]:
+                        continue
+                    grafo.agregar_arista(linea[0], elem)
+    return grafo
+
+
 
 def dijkstra(grafo,vertices,padres, origen,destino): #O(E*Log(v))
     distancia = {}
     for v in grafo.obtener_vertices():
-            distancia[v] = float('inf')
+        distancia[v] = float('inf')
     distancia[origen] = 0
     padres[origen] = None
     heap = []
@@ -21,6 +49,8 @@ def dijkstra(grafo,vertices,padres, origen,destino): #O(E*Log(v))
     
     return padres,distancia[destino]
 
+
+
 def reconstruir_camino(padres, inicio, fin):
     v = fin
     camino = []
@@ -29,6 +59,8 @@ def reconstruir_camino(padres, inicio, fin):
         v = padres[v]
     camino.append(inicio)
     return camino[::-1]
+
+
 
 def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E)
     padres[inicio] = None
@@ -48,6 +80,8 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E)
 
     return padres
 
+
+
 def camino_mas_corto(grafo,origen,destino): #O(V+E)
     visitados = set()
     padres = {}
@@ -60,6 +94,7 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     print(camino[i+1],end="")
     print("")
     print("Costo: ",len(camino))
+
 
 
 def caminos_minimos(grafo,origen): #necesita cola
@@ -78,6 +113,7 @@ def caminos_minimos(grafo,origen): #necesita cola
                 cola.append(w)
                 visitados.add(w)
     return distancia
+
 
 
 def diametro(grafo):

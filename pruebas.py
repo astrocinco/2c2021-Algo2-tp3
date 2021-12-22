@@ -1,5 +1,7 @@
-from grafo import *
-from tp3 import *
+from grafo import Grafo
+import tp3 
+import sys
+import csv
 
 
 def pruebas_vertices():
@@ -44,7 +46,7 @@ def pruebas_aristas():
 	print("uno messi con mbappe con peso 50")
 	grafo.agregar_arista("messi","mbappe",50)
 
-	camino = camino_mas_corto(grafo,"messi","mbappe")
+	camino = tp3.camino_mas_corto(grafo,"messi","mbappe")
 	print("camino mas corto entre messi y mbappe",camino)
 
 	grafo.agregar_arista("messi",4)
@@ -87,7 +89,7 @@ def pruebas_varias():
 	grafo.agregar_arista("2","3")
 
 
-	camino_mas_corto(grafo,"1","3")
+	tp3.camino_mas_corto(grafo,"1","3")
 
 
 
@@ -102,9 +104,15 @@ def pruebas_input():#quiero conseguir solamente la primera palabra
 		orden = input("dale")
 
 
-
-
 def pruebas():
+	input_terminal = sys.argv
+	if len(input_terminal) != 1:
+		grafo = tp3.tsv_to_vert(input_terminal[1])
+		for vert in grafo.obtener_vertices():
+			if vert == "Julio César":
+				print("Yas Queen")
+				print(f"Adyacentes de {vert} son: ", grafo.adyacentes(vert))
+		return
 	pruebas_vertices()
 	print("")
 	pruebas_aristas()

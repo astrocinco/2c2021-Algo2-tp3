@@ -14,6 +14,8 @@ class Grafo:
         pass
 
     def agregar_vertice(self, vertice):
+        if self._pertenece(vertice):
+            return False
         self.dic[vertice] = {}
         return True
 
@@ -31,6 +33,8 @@ class Grafo:
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
         if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
             return False
+        # if vertice_1 == vertice_2:
+        #     return False
         self.dic[vertice_1][vertice_2] = peso
         return True
 
