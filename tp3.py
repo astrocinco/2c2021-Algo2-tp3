@@ -5,6 +5,12 @@ import csv
 
 
 
+def listar_operaciones(list_op):
+    for func in list_op:
+        print(func) # Imprimir así? o con otra cosa como stdout?
+
+
+
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     with open(nombre_tsv) as archivo:
         cont = csv.reader(archivo, delimiter="\t") # Revisar carg mem, revisar ""
