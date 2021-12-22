@@ -7,7 +7,7 @@ class Grafo:
 
     def __str__(self): #  PROBAR
         for key in self.dic.keys():
-             print(key)
+            print(key)
 
     def agregar_vertice(self, vertice):
         if self._pertenece(vertice):
