@@ -32,36 +32,42 @@ def main():
 
 
 def ciclo():
-     list_op = ["camino", "diametro"] # Esto va acá? O podría ir como variable global?
-     ingreso_terminal = sys.argv
-     if len(ingreso_terminal) != 2:
-         raise Exception # Elegir mejor excepción
-     grafo_netstats = tp3.tsv_to_vert(ingreso_terminal[1])
-     if grafo_netstats == None: 
-         raise Exception # En caso de fallar la lectura del archivo. -- HACER --
+    list_op = ["camino", "diametro"] # Esto va acá? O podría ir como variable global?
+    ingreso_terminal = sys.argv
+    if len(ingreso_terminal) != 2:
+        raise Exception # Elegir mejor excepción
+    grafo_netstats = tp3.tsv_to_vert(ingreso_terminal[1])
+    if grafo_netstats == None: 
+        raise Exception # En caso de fallar la lectura del archivo. -- HACER --
 
-     tp3.listar_operaciones(list_op)
-     while True: # No se si está bueno poner while(True)
-         try: 
-             input_terminal = list(input().split(" "))
-         except EOFError:
-             break # Terminar el ciclo cuando el input sea Control+D
+    tp3.listar_operaciones(list_op)
 
-         if input_terminal[0] == "camino":
-             if len(input_terminal) != 2:
-                 raise Exception # Elegir mejor excepction
-             parametros = list(input_terminal[1].split(","))
-             if len(parametros) != 2:
-                 raise Exception
-             tp3.camino_mas_corto(grafo_netstats, parametros[0], parametros[1])
 
-         elif input_terminal[0] == "Funcion2":
-             tp3.funcion2(grafo_netstats)
+    input_terminal = list(input().split(" "))
 
-         elif input_terminal[0] == "Funcion3":
-             tp3.funcion3(grafo_netstats)
+    while input_terminal != EOFError:
+        try: 
+            input_terminal = list(input().split(" "))
+        except EOFError:
+            break # Terminar el ciclo cuando el input sea Control+D
+        if input_terminal == "listar_operaciones":
+            tp3.listar_operaciones(list_op)
+        elif input_terminal[0] == "camino":
+            if len(input_terminal) != 2:
+                raise Exception # Elegir mejor excepction
+            parametros = list(input_terminal[1].split(","))
 
-         else:
-             print(INPUT_ERROR_NO_EXISTE_COMANDO)
+            if len(parametros) != 2:
+                raise Exception
+            tp3.camino_mas_corto(grafo_netstats, parametros[0], parametros[1])
+
+        elif input_terminal[0] == "rango":
+            tp3.funcion2(grafo_netstats)
+
+        elif input_terminal[0] == "diametro":
+            tp3.funcion3(grafo_netstats)
+
+        else:
+            print(INPUT_ERROR_NO_EXISTE_COMANDO)
 
 ciclo()

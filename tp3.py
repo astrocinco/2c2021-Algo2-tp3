@@ -108,7 +108,7 @@ def caminos_minimos(grafo,origen): #necesita cola
 
 
 
-def diametro(grafo):
+def diametro(grafo):#fijarse si anda
     max_min_dist = 0
     for v in grafo:
         distancias = caminos_minimos(grafo,v) # implementar caminos minimos
