@@ -1,12 +1,14 @@
 from typing import Deque
-from grafo import *
+from grafo import Grafo
 import heapq
 import csv
 from collections import deque
+import logging
+logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
 
 def listar_operaciones(list_op):
      for func in list_op:
-         print(func) # Imprimir así? o con otra cosa como stdout?
+         print(func) 
 
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     with open(nombre_tsv) as archivo:
@@ -22,7 +24,8 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
 
 #---------------------------------------------------------------camino mas corto: LISTO
 
-def reconstruir_camino(padres, inicio, fin):
+def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
+    logging.debug(" tp3.py - reconstruir_camino")
     v = fin
     camino = []
     while v != inicio:
@@ -33,7 +36,8 @@ def reconstruir_camino(padres, inicio, fin):
 
 
 
-def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E)
+def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_mas_corto
+    logging.debug(" tp3.py - bfs")
     padres[inicio] = None
     orden[inicio] = 0
     visitados.add(inicio)
@@ -54,6 +58,7 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E)
 
 
 def camino_mas_corto(grafo,origen,destino): #O(V+E)
+    logging.debug(" tp3.py - camino_mas_corto")
     visitados = set()
     padres = {}
     orden = {}
