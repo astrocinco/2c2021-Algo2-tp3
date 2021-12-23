@@ -11,6 +11,7 @@ def listar_operaciones(list_op):
          print(func) 
 
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
+    logging.debug(" tp3.py - tsv_to_vert()")
     with open(nombre_tsv) as archivo:
         cont = csv.reader(archivo, delimiter="\t") # Revisar carg mem, revisar ""
         for linea in cont:
@@ -25,7 +26,7 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
 #---------------------------------------------------------------camino mas corto: LISTO
 
 def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
-    logging.debug(" tp3.py - reconstruir_camino")
+    logging.debug(" tp3.py - reconstruir_camino()")
     v = fin
     camino = []
     while v != inicio:
@@ -37,7 +38,7 @@ def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
 
 
 def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_mas_corto
-    logging.debug(" tp3.py - bfs")
+    logging.debug(" tp3.py - bfs()")
     padres[inicio] = None
     orden[inicio] = 0
     visitados.add(inicio)
@@ -53,12 +54,13 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
             visitados.add(w)
             q.append(w)
 
+    logging.debug(" tp3.py - FIN bfs()")
     return padres
 
 
 
 def camino_mas_corto(grafo,origen,destino): #O(V+E)
-    logging.debug(" tp3.py - camino_mas_corto")
+    logging.debug(" tp3.py - camino_mas_corto()")
     visitados = set()
     padres = {}
     orden = {}

@@ -35,9 +35,8 @@ def ciclo():
             tp3.listar_operaciones(list_op)
 
         elif input_terminal[0] == "camino":
-            if len(input_terminal) != 2:
-                raise IndexError ("Número de variables incorrecto en 'camino'") 
-            parametros = list(input_terminal[1].split(","))
+            str_com_fin = ''.join(input_terminal[1:])
+            parametros = list(str_com_fin.split(","))
             if len(parametros) != 2:
                 raise IndexError ("Número de variables incorrecto en 'camino'") 
             tp3.camino_mas_corto(grafo_netstats, parametros[0], parametros[1])
