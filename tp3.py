@@ -29,9 +29,14 @@ def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
     logging.debug(" tp3.py - reconstruir_camino()")
     v = fin
     camino = []
+    contador = 0 # BORRAR CUANDO EL BUG ESTÉ SOLUCIONADO
     while v != inicio:
+        logging.debug(f" tp3.py - reconstruir_camino() - {v}")
         camino.append(v)
         v = padres[v]
+        contador += 1 # BORRAR CUANDO EL BUG ESTÉ SOLUCIONADO
+        if contador == 500: # BORRAR CUANDO EL BUG ESTÉ SOLUCIONADO
+            break # BORRAR CUANDO EL BUG ESTÉ SOLUCIONADO
     camino.append(inicio)
     return camino[::-1]
 
@@ -46,6 +51,7 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
     q.append(inicio)
     while q:
         v = q.pop()
+        logging.debug(f" tp3.py - bfs() - {v}")
         for w in grafo.adyacentes(v):
             orden[w] = orden[v] + 1
             padres[w] = v
@@ -61,6 +67,9 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
 
 def camino_mas_corto(grafo,origen,destino): #O(V+E)
     logging.debug(" tp3.py - camino_mas_corto()")
+    if not grafo.pertenece(origen) or not grafo.pertenece(destino): 
+        logging.debug(" tp3.py - camino_mas_corto() - ORIGEN O DESTINO NO PERTENECEN AL GRAFO")
+        return
     visitados = set()
     padres = {}
     orden = {}

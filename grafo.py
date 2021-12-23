@@ -10,7 +10,7 @@ class Grafo:
             print(key)
 
     def agregar_vertice(self, vertice):
-        if self._pertenece(vertice):
+        if self.pertenece(vertice):
             return False
         self.dic[vertice] = {}
         return True
@@ -22,7 +22,7 @@ class Grafo:
         return True
 
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
-        if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
+        if not self.pertenece(vertice_1) or not self.pertenece(vertice_2):
             return False
         # if vertice_1 == vertice_2:
         #     return False
@@ -36,7 +36,7 @@ class Grafo:
         return True
 
     def estan_unidos(self, vertice_1, vertice_2):
-        if not self._pertenece(vertice_1) or not self._pertenece(vertice_2):
+        if not self.pertenece(vertice_1) or not self.pertenece(vertice_2):
             return False 
         return vertice_2 in self.dic[vertice_1]
 
@@ -57,5 +57,5 @@ class Grafo:
     def adyacentes(self, vertice):
         return list(self.dic[vertice])
 
-    def _pertenece(self, vertice):
+    def pertenece(self, vertice):
         return vertice in self.dic
