@@ -156,7 +156,7 @@ def lectura(grafo, paginas_str):
     orden = []
 
     if len(paginas) < 2:
-        raise IndexError ("Número de variables incorrecto en 'lectura'") 
+        raise IndexError ("Numero de variables incorrecto en 'lectura'") 
 
     for i in range(len(paginas)-1):
         if grafo.estan_unidos(paginas[i],paginas[i+1]):
@@ -196,3 +196,34 @@ def navegacion(grafo,origen):
     print(navegados[len(navegados)-1])
 
     return True
+
+
+
+#---------------------------------------------------------------comunidades: EN PROCESO
+
+"""Por cada vértice, en el orden determinado en el punto anterior, definir: Label[Vi]=max_freq(Label[Vj],...,Label[Vk])
+Donde Vj,...,VkVj,...,Vk son los vértices que tienen como adyacentes a Vi (ya que las Labels se están propagando). Para el caso de un grafo no dirigido, son los mismos adyacentes a Vi, pero en caso de un grafo dirigido se debe tener en cuenta las aristas de entrada. Se tiene en cuenta la última actualización realizada, inclusive si ya fueron procesados en esta iteración (actualización asincrónica). max_freq
+max_freq es una función que devuelve la Label que aparece más frecuentemente entre todos los adyacentes a Vi. En caso de empate, es igual cuál de los máximos devolver."""
+
+def max_freq(adyacentes):
+    pass
+
+
+def comunidades(grafo,pagina):
+    vertices = grafo.obtener_vertices()
+    label = {}
+    orden = []
+    for i in range(len(vertices)):
+        label[vertices[i]] = i
+        orden.append(vertices[i])
+
+
+    for i in orden:
+        adyacentes = grafo.adyacentes(i)
+        label[i] = max_freq(adyacentes)
+
+
+    
+    
+    
+    return
