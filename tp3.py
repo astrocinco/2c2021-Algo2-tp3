@@ -133,6 +133,7 @@ def lectura(grafo, paginas):
                 orden.append(paginas[len(paginas)-1])
         else:
             print("No existe forma de leer las paginas en orden")
+            return
     
     for i in range(len(orden)-1):
         print(orden[len(orden)-i-1],end=", ")
@@ -140,16 +141,22 @@ def lectura(grafo, paginas):
     return
 
 
-#---------------------------------------------------------------navegacion por primer link: EN PROCESO
+#---------------------------------------------------------------navegacion por primer link: LISTA
 
-def _navegacion(grafo,actual,navegados):
-    pass
+def _navegacion(grafo,actual,visitados,orden):
+    if actual not in visitados:
+        visitados.add(actual)
+        orden.append(actual)
+        adyacentes = grafo.adyacentes(actual)
+        if len(adyacentes) > 0:
+            _navegacion(grafo,adyacentes[0],visitados,orden)
+        else: return True
 
 
 def navegacion(grafo,origen):
     visitados = set()
     navegados = []
-    _navegacion(grafo,origen,navegados)
+    _navegacion(grafo,origen,visitados,navegados)
     return navegados
 
 

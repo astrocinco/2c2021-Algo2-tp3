@@ -76,19 +76,37 @@ def pruebas_volumen():
 	#print("-adyacentes de 1: ",grafo.adyacentes(1))
 '''
 def pruebas_varias():
-	print("PRUEBAS CON ARISTAS")
 	grafo = Grafo()
 	grafo.agregar_vertice("1")
 	grafo.agregar_vertice("2")
 	grafo.agregar_vertice("3")
 	grafo.agregar_vertice("4")
 	grafo.agregar_vertice("5")
+	grafo.agregar_vertice("6")
+	grafo.agregar_vertice("7")
 
 	grafo.agregar_arista("1","2")
-	grafo.agregar_arista("2","3")
+	grafo.agregar_arista("1","3")
+	#grafo.agregar_arista("3","4")
+	#grafo.agregar_arista("3","5")
+	grafo.agregar_arista("3","6")
+	grafo.agregar_arista("6","7")
 
-
+	print("CAMINO MAS CORTO ENTRE 1 Y 3")
 	tp3.camino_mas_corto(grafo,"1","3")
+
+
+	print("TODOS EN RANGO 2 DE (vertice) 1")
+	cantidad = tp3.todos_en_rango(grafo,"1",2)
+	print(cantidad)
+
+	print("PRUEBAS LECTURA 2AM")
+
+	paginas = ["1","3","6","7"]
+	tp3.lectura(grafo,paginas)
+
+
+
 
 
 def prueba_input():
@@ -101,64 +119,17 @@ def prueba_input():
 				print(f"Adyacentes de {vert} son: ", grafo.adyacentes(vert))
 		return
 	
-def pruebas_rango():
-	print("PRUEBAS TODOS EN RANGO")
-	grafo = Grafo()
 
-	grafo.agregar_vertice("1")
-	grafo.agregar_vertice("2")
-	grafo.agregar_vertice("3")
-	grafo.agregar_vertice("4")
-	grafo.agregar_vertice("5")
-	grafo.agregar_vertice("6")
-	grafo.agregar_vertice("7")
-
-	grafo.agregar_arista("1","2")
-	grafo.agregar_arista("1","3")
-	#grafo.agregar_arista("3","4")
-	#grafo.agregar_arista("3","5")
-	grafo.agregar_arista("3","6")
-	grafo.agregar_arista("6","7")
-	
-
-	cantidad = tp3.todos_en_rango(grafo,"1",2)
-
-	print(cantidad)
-
-	#pruebas basicas: funciona
-
-def pruebas_lectura():
-	grafo = Grafo()
-
-	grafo.agregar_vertice("1")
-	grafo.agregar_vertice("2")
-	grafo.agregar_vertice("3")
-	grafo.agregar_vertice("4")
-	grafo.agregar_vertice("5")
-	grafo.agregar_vertice("6")
-	grafo.agregar_vertice("7")
-
-	grafo.agregar_arista("1","2")
-	grafo.agregar_arista("1","3")
-	#grafo.agregar_arista("3","4")
-	#grafo.agregar_arista("3","5")
-	grafo.agregar_arista("3","6")
-	grafo.agregar_arista("6","7")
-
-
-	paginas = ["1","3","6","7"]
-	tp3.lectura(grafo,paginas)
 
 
 
 def pruebas():
-	pruebas_lectura()
+	pruebas_varias()
 	return
 	pruebas_vertices()
 	print("")
 	pruebas_aristas()
 	print("")
-	pruebas_varias()
 	print("")
 	prueba_input()
 	print("")
