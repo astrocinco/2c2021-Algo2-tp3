@@ -6,9 +6,13 @@ from collections import deque
 import logging
 logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
 
+
+
 def listar_operaciones(list_op):
      for func in list_op:
          print(func) 
+
+
 
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     logging.debug(" tp3.py - tsv_to_vert()")
@@ -101,6 +105,8 @@ def caminos_minimos(grafo,origen,actual):
                 visitados.add(w)
     return camino
 
+
+
 def diametro(grafo):#tiene que dar 1>3>6>7
     max_min_dist = 0
 
@@ -122,6 +128,7 @@ def diametro(grafo):#tiene que dar 1>3>6>7
     print(mas_largo[i+1])
     print("Costo: ",len(mas_largo))
     return
+
 #---------------------------------------------------------------todos en rango: LISTO
 
 def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
@@ -137,6 +144,7 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
     return cantidad
 
 #---------------------------------------------------------------lectura 2 am: LISTO
+
 def lectura(grafo, paginas):
     orden = []
     for i in range(len(paginas)-1):
@@ -153,7 +161,6 @@ def lectura(grafo, paginas):
     print(orden[0])
     return True
 
-
 #---------------------------------------------------------------navegacion por primer link: LISTA
 
 def _navegacion(grafo,actual,visitados,orden):
@@ -166,6 +173,7 @@ def _navegacion(grafo,actual,visitados,orden):
         else: return True
 
 
+
 def navegacion(grafo,origen):
     visitados = set()
     navegados = []
@@ -176,18 +184,3 @@ def navegacion(grafo,origen):
     print(navegados[len(navegados)-1])
 
     return True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
