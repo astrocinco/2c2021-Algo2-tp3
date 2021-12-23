@@ -20,27 +20,7 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     return grafo # Retornar None o algo así cuando no se pueda entrar al archivo -- HACER --
 
 
-
-def dijkstra(grafo,vertices,padres, origen,destino): #O(E*Log(v))
-    distancia = {}
-    for v in grafo.obtener_vertices():
-        distancia[v] = float('inf')
-    distancia[origen] = 0
-    padres[origen] = None
-    heap = []
-    heapq.heappush(heap,origen)
-
-    while heap:
-        v = heapq.heappop(heap)
-        for w in grafo.adyacentes(v):
-            if (distancia[v] + grafo.peso_arista(v,w) < distancia[w]):
-                distancia[w] = distancia[v] + grafo.peso_arista(v,w)
-                padres[w] = v
-                heapq.heappush(heap,w)
-    
-    return padres,distancia[destino]
-
-
+#---------------------------------------------------------------camino mas corto
 
 def reconstruir_camino(padres, inicio, fin):
     v = fin
@@ -85,7 +65,7 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     print(camino[i+1])
     print("Costo: ",len(camino))
 
-
+#---------------------------------------------------------------diametro
 
 def caminos_minimos(grafo,origen,actual): 
     cola = Deque()
@@ -129,8 +109,7 @@ def diametro(grafo):#tiene que dar 1>3>6>7
     print(mas_largo[i+1])
     print("Costo: ",len(mas_largo))
     return
-
-
+#---------------------------------------------------------------todos en rango
 
 def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
     visitados = set()
@@ -143,22 +122,8 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
         if orden[i] == rango:
             cantidad+=1
     return cantidad
-    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#---------------------------------------------------------------lectura
 def lectura(grafo, paginas):
     orden = []
     for i in range(len(paginas)-1):
@@ -172,7 +137,6 @@ def lectura(grafo, paginas):
     for i in range(len(orden)-1):
         print(orden[len(orden)-i-1],end=", ")
     print(orden[0])
-    
     return
 
 
