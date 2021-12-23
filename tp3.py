@@ -199,6 +199,11 @@ def navegacion(grafo,origen):
 
 
 
+def conectividad(grafo, pagina):
+    pass
+
+
+
 #---------------------------------------------------------------comunidades: EN PROCESO
 
 """Por cada vértice, en el orden determinado en el punto anterior, definir: Label[Vi]=max_freq(Label[Vj],...,Label[Vk])

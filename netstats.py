@@ -63,10 +63,17 @@ def ciclo():
 
         elif input_terminal[0] == "navegacion":
             str_n = ' '.join(input_terminal[1:])
-            param_cam = list(str_n.split(","))
-            if len(param_cam) != 1:
+            param_nav = list(str_n.split(","))
+            if len(param_nav) != 1:
                 raise IndexError ("Número de variables incorrecto en 'navegacion'") 
-            tp3.navegacion(grafo_netstats, param_cam[0])
+            tp3.navegacion(grafo_netstats, param_nav[0])
+
+        elif input_terminal[0] == "conectados":
+            str_c = ' '.join(input_terminal[1:])
+            param_con = list(str_c.split(","))
+            if len(param_nav) != 1:
+                raise IndexError ("Número de variables incorrecto en 'conectados'") 
+            tp3.conectividad(grafo_netstats, param_nav[0])
 
         else:
             print(INPUT_ERROR_NO_EXISTE_COMANDO)
