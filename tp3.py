@@ -154,6 +154,7 @@ def lectura(grafo, paginas_str):
     else: 
         paginas = paginas_str
     orden = []
+
     if len(paginas) < 2:
         raise IndexError ("Número de variables incorrecto en 'lectura'") 
 
@@ -173,26 +174,25 @@ def lectura(grafo, paginas_str):
 
 #---------------------------------------------------------------navegacion por primer link: LISTA
 
-def _navegacion(grafo,actual,visitados,orden):
-    if len(orden) >= MAX_LEN_NAVEGACION:
+def _navegacion(grafo,actual,orden):
+    logging.debug(" tp3.py - _navegacion()")
+    if len(orden) >= MAX_LEN_NAVEGACION + 1: # No estoy seguro si está bien dejarlo como constante global. Tal vez mejor como constante adentro de _navegacion?
         return True #true o solo return?? # Mucho no importa, no hacemos nada con lo que retorne. Si pones true debería haber un false en algún lado
-    if actual not in visitados:
-        visitados.add(actual)
-        orden.append(actual)
-        adyacentes = grafo.adyacentes(actual)
-        if len(adyacentes) > 0:
-            _navegacion(grafo,adyacentes[0],visitados,orden)
-        else: return True
+    orden.append(actual)
+    adyacentes = grafo.adyacentes(actual)
+    if len(adyacentes) > 0:
+        _navegacion(grafo,adyacentes[0],orden)
+    return True
 
 
 
 def navegacion(grafo,origen):
-    visitados = set()
+    logging.debug(" tp3.py - navegacion()")
     navegados = []
-    _navegacion(grafo,origen,visitados,navegados)
+    _navegacion(grafo,origen,navegados)
 
     for i in range(len(navegados)-1):
-        print(navegados[i]," -> ",end="")
+        print(navegados[i],"-> ",end="")
     print(navegados[len(navegados)-1])
 
     return True

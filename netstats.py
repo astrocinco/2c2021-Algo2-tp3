@@ -16,7 +16,9 @@ INPUT_ERROR_NO_EXISTE_COMANDO = "El comando ingresado no existe. Inténtelo de n
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
-    # Camino ★✓, rango ★✓, diametro ★, lectura ★★✓?
+    # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓
+    # VERIFICAR: lectura ★★✓?
+    # EN PROCESO: diametro ★
     list_op = ["camino","rango" ,"diametro","lectura"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
@@ -58,6 +60,13 @@ def ciclo():
                 raise IndexError ("Número de variables incorrecto en 'lectura'") 
             str_lec = ' '.join(input_terminal[1:])
             tp3.lectura(grafo_netstats, str_lec)
+
+        elif input_terminal[0] == "navegacion":
+            str_n = ' '.join(input_terminal[1:])
+            param_cam = list(str_n.split(","))
+            if len(param_cam) != 1:
+                raise IndexError ("Número de variables incorrecto en 'navegacion'") 
+            tp3.navegacion(grafo_netstats, param_cam[0])
 
         else:
             print(INPUT_ERROR_NO_EXISTE_COMANDO)
