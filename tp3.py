@@ -149,9 +149,13 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
 def lectura(grafo, paginas_str):
     if type(paginas_str) == str:
         paginas = list(paginas_str.split(","))
+        for pag in paginas:
+            logging.debug(f" tp3.py - lectura() - {pag} pertenece? {grafo.pertenece(pag)}")
     else: 
         paginas = paginas_str
     orden = []
+    if len(paginas) < 2:
+        raise IndexError ("Número de variables incorrecto en 'lectura'") 
 
     for i in range(len(paginas)-1):
         if grafo.estan_unidos(paginas[i],paginas[i+1]):
@@ -171,7 +175,7 @@ def lectura(grafo, paginas_str):
 
 def _navegacion(grafo,actual,visitados,orden):
     if len(orden) >= MAX_LEN_NAVEGACION:
-        return True #true o solo return??
+        return True #true o solo return?? # Mucho no importa, no hacemos nada con lo que retorne. Si pones true debería haber un false en algún lado
     if actual not in visitados:
         visitados.add(actual)
         orden.append(actual)
