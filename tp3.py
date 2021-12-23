@@ -15,9 +15,8 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
             for elem in linea:
                 grafo.agregar_vertice(elem)
                 if len(linea) != 1:
-                    if elem == linea[0]:
-                        continue
-                    grafo.agregar_arista(linea[0], elem)
+                    if elem != linea[0]:
+                        grafo.agregar_arista(linea[0], elem)
     return grafo # Retornar None o algo así cuando no se pueda entrar al archivo -- HACER --
 
 
@@ -83,39 +82,54 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     for i in range(len(camino)-1):
         print(camino[i],"-> ",end="")
         
-    print(camino[i+1],end="")
-    print("")
+    print(camino[i+1])
     print("Costo: ",len(camino))
 
 
 
-def caminos_minimos(grafo,origen): #necesita cola
+def caminos_minimos(grafo,origen,actual): 
     cola = Deque()
-    visitados = set()
     distancia = {}
     distancia[origen] = 0
+    visitados = set()
     visitados.add(origen)
     cola.append(origen)
-
+    camino = []
+    camino.append(origen)
     while cola:
         v = cola.pop()
         for w in grafo.adyacentes(v):
             if w not in visitados:
-                distancia[w] = distancia[v] + 1 #+1 o +peso arista
+                distancia[w] = distancia[v] + 1 
+                #+1 o +peso_arista
+
+                camino.append(w)
                 cola.append(w)
                 visitados.add(w)
-    return distancia
+    return camino
 
-
-
-def diametro(grafo):#fijarse si anda
+def diametro(grafo):#tiene que dar 1>3>6>7
     max_min_dist = 0
-    for v in grafo:
-        distancias = caminos_minimos(grafo,v) 
-        for w in distancias:
-            if distancias[w] > max_min_dist:
-                max_min_dist = distancias[w]
-    return max_min_dist #est esta mal: tiene que devolver el camino
+
+    mas_largo = []
+    for v in grafo.obtener_vertices():
+        camino = caminos_minimos(grafo, v,v)
+        print(camino)
+        if len(camino) > max_min_dist:
+            max_min_dist = len(camino)
+            mas_largo = camino
+
+    #asi no anda, tendre que hacer dfs y verificar no tenga mas adyacentes??
+    #pienso
+    #igual la respuesta esta cerca, este algoritmo recorre todos los vertices
+
+
+    for i in range(len(mas_largo)-1):
+        print(mas_largo[i],"-> ",end="")
+    print(mas_largo[i+1])
+    print("Costo: ",len(mas_largo))
+    return
+
 
 
 def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
@@ -130,3 +144,55 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
             cantidad+=1
     return cantidad
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def lectura(grafo, paginas):
+    orden = []
+    for i in range(len(paginas)-1):
+        if grafo.estan_unidos(paginas[i],paginas[i+1]):
+            orden.append(paginas[i])
+            if i == (len(paginas)-2):
+                orden.append(paginas[len(paginas)-1])
+        else:
+            print("No existe forma de leer las paginas en orden")
+    
+    for i in range(len(orden)-1):
+        print(orden[len(orden)-i-1],end=", ")
+    print(orden[0])
+    
+    return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

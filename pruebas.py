@@ -5,7 +5,6 @@ import csv
 
 
 def pruebas_vertices():
-
 	print("PRUEBAS DE VERTICES")
 	grafo = Grafo()
 	grafo.agregar_vertice("1")
@@ -112,19 +111,49 @@ def pruebas_rango():
 	grafo.agregar_vertice("4")
 	grafo.agregar_vertice("5")
 	grafo.agregar_vertice("6")
+	grafo.agregar_vertice("7")
 
 	grafo.agregar_arista("1","2")
 	grafo.agregar_arista("1","3")
-	grafo.agregar_arista("3","4")
-	grafo.agregar_arista("3","5")
+	#grafo.agregar_arista("3","4")
+	#grafo.agregar_arista("3","5")
 	grafo.agregar_arista("3","6")
+	grafo.agregar_arista("6","7")
+	
 
 	cantidad = tp3.todos_en_rango(grafo,"1",2)
+
 	print(cantidad)
+
 	#pruebas basicas: funciona
+
+def pruebas_lectura():
+	grafo = Grafo()
+
+	grafo.agregar_vertice("1")
+	grafo.agregar_vertice("2")
+	grafo.agregar_vertice("3")
+	grafo.agregar_vertice("4")
+	grafo.agregar_vertice("5")
+	grafo.agregar_vertice("6")
+	grafo.agregar_vertice("7")
+
+	grafo.agregar_arista("1","2")
+	grafo.agregar_arista("1","3")
+	#grafo.agregar_arista("3","4")
+	#grafo.agregar_arista("3","5")
+	grafo.agregar_arista("3","6")
+	grafo.agregar_arista("6","7")
+
+
+	paginas = ["1","3","6","7"]
+	tp3.lectura(grafo,paginas)
+
 
 
 def pruebas():
+	pruebas_lectura()
+	return
 	pruebas_vertices()
 	print("")
 	pruebas_aristas()
