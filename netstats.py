@@ -24,7 +24,7 @@ def esperar_comando():
 
 
 def ciclo():
-    list_op = ["camino", "diametro","lectura"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino","rango" ,"diametro","lectura"] # Esto va acá? O podría ir como variable global?
     #diametro no anda
     ingreso_terminal = sys.argv
     if len(ingreso_terminal) != 2:

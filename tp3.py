@@ -20,7 +20,7 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     return grafo # Retornar None o algo así cuando no se pueda entrar al archivo -- HACER --
 
 
-#---------------------------------------------------------------camino mas corto
+#---------------------------------------------------------------camino mas corto: LISTO
 
 def reconstruir_camino(padres, inicio, fin):
     v = fin
@@ -65,7 +65,7 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     print(camino[i+1])
     print("Costo: ",len(camino))
 
-#---------------------------------------------------------------diametro
+#---------------------------------------------------------------diametro: NO ANDA
 
 def caminos_minimos(grafo,origen,actual): 
     cola = Deque()
@@ -109,7 +109,7 @@ def diametro(grafo):#tiene que dar 1>3>6>7
     print(mas_largo[i+1])
     print("Costo: ",len(mas_largo))
     return
-#---------------------------------------------------------------todos en rango
+#---------------------------------------------------------------todos en rango: LISTO
 
 def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
     visitados = set()
@@ -123,7 +123,7 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
             cantidad+=1
     return cantidad
 
-#---------------------------------------------------------------lectura
+#---------------------------------------------------------------lectura 2 am: LISTO
 def lectura(grafo, paginas):
     orden = []
     for i in range(len(paginas)-1):
@@ -140,11 +140,17 @@ def lectura(grafo, paginas):
     return
 
 
+#---------------------------------------------------------------navegacion por primer link: EN PROCESO
+
+def _navegacion(grafo,actual,navegados):
+    pass
 
 
-
-
-
+def navegacion(grafo,origen):
+    visitados = set()
+    navegados = []
+    _navegacion(grafo,origen,navegados)
+    return navegados
 
 
 
