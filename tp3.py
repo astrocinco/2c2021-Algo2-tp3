@@ -6,7 +6,7 @@ from collections import deque
 import logging
 logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
 
-
+MAX_LEN_NAVEGACION = 20
 
 def listar_operaciones(list_op):
      for func in list_op:
@@ -165,6 +165,8 @@ def lectura(grafo, paginas):
 #---------------------------------------------------------------navegacion por primer link: LISTA
 
 def _navegacion(grafo,actual,visitados,orden):
+    if len(orden) >= MAX_LEN_NAVEGACION:
+        return True #true o solo return??
     if actual not in visitados:
         visitados.add(actual)
         orden.append(actual)
