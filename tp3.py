@@ -62,7 +62,7 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     for i in range(len(camino)-1):
         print(camino[i],"-> ",end="")
         
-    print(camino[i+1])
+    print(camino[len(camino) -1])
     print("Costo: ",len(camino))
 
 #---------------------------------------------------------------diametro: NO ANDA
@@ -138,7 +138,7 @@ def lectura(grafo, paginas):
     for i in range(len(orden)-1):
         print(orden[len(orden)-i-1],end=", ")
     print(orden[0])
-    return
+    return True
 
 
 #---------------------------------------------------------------navegacion por primer link: LISTA
@@ -157,7 +157,12 @@ def navegacion(grafo,origen):
     visitados = set()
     navegados = []
     _navegacion(grafo,origen,visitados,navegados)
-    return navegados
+
+    for i in range(len(navegados)-1):
+        print(navegados[i]," -> ",end="")
+    print(navegados[len(navegados)-1])
+
+    return True
 
 
 

@@ -76,6 +76,7 @@ def pruebas_volumen():
 	#print("-adyacentes de 1: ",grafo.adyacentes(1))
 '''
 def pruebas_varias():
+	print("PRUEBAS SIMPles")
 	grafo = Grafo()
 	grafo.agregar_vertice("1")
 	grafo.agregar_vertice("2")
@@ -105,7 +106,9 @@ def pruebas_varias():
 	paginas = ["1","3","6","7"]
 	tp3.lectura(grafo,paginas)
 
+	print("PRUEBAS NAVEGACION")
 
+	navegados = tp3.navegacion(grafo,"3")
 
 
 
