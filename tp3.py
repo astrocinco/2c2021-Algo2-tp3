@@ -146,8 +146,13 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
 
 #---------------------------------------------------------------lectura 2 am: LISTO
 
-def lectura(grafo, paginas):
+def lectura(grafo, paginas_str):
+    if type(paginas_str) == str:
+        paginas = list(paginas_str.split(","))
+    else: 
+        paginas = paginas_str
     orden = []
+
     for i in range(len(paginas)-1):
         if grafo.estan_unidos(paginas[i],paginas[i+1]):
             orden.append(paginas[i])
@@ -155,7 +160,7 @@ def lectura(grafo, paginas):
                 orden.append(paginas[len(paginas)-1])
         else:
             print("No existe forma de leer las paginas en orden")
-            return
+            return False
     
     for i in range(len(orden)-1):
         print(orden[len(orden)-i-1],end=", ")

@@ -53,6 +53,12 @@ def ciclo():
         elif input_terminal[0] == "diametro":
             tp3.diametro(grafo_netstats)
 
+        elif input_terminal[0] == "lectura":
+            if len(input_terminal) != 2:
+                raise IndexError ("Número de variables incorrecto en 'lectura'") 
+            str_lec = ' '.join(input_terminal[1:])
+            tp3.lectura(grafo_netstats, str_lec)
+
         else:
             print(INPUT_ERROR_NO_EXISTE_COMANDO)
 
