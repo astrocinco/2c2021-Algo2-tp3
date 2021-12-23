@@ -41,7 +41,7 @@ def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
 
 
 
-def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_mas_corto
+def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_mas_corto, todos_en_rango
     logging.debug(" tp3.py - bfs()")
     padres[inicio] = None
     orden[inicio] = 0
@@ -50,11 +50,11 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
     q.append(inicio)
     while q:
         v = q.pop()
-        logging.debug(f" tp3.py - bfs() - {v}")
         for w in grafo.adyacentes(v):
             if w in visitados:
                 continue
             orden[w] = orden[v] + 1
+            logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
             padres[w] = v
             if w == destino:
                 return padres
@@ -62,7 +62,6 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
             q.append(w)
 
     logging.debug(" tp3.py - FIN bfs()")
-    return padres
 
 
 
@@ -139,8 +138,10 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
 
     cantidad = 0
     for i in orden: #O(v)
+        logging.debug(f" tp3.py - todos_en_rango() - {i}")
         if orden[i] == rango:
             cantidad+=1
+    print(cantidad)
     return cantidad
 
 #---------------------------------------------------------------lectura 2 am: LISTO

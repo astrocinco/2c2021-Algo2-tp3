@@ -16,6 +16,7 @@ INPUT_ERROR_NO_EXISTE_COMANDO = "El comando ingresado no existe. Inténtelo de n
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
+    # Camino ★✓, rango ★✓, diametro ★, lectura ★★
     list_op = ["camino","rango" ,"diametro","lectura"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
@@ -36,14 +37,18 @@ def ciclo():
             tp3.listar_operaciones(list_op)
 
         elif input_terminal[0] == "camino":
-            str_cf = ''.join(input_terminal[1:])
-            parametros = list(str_cf.split(","))
-            if len(parametros) != 2:
+            str_cf = ' '.join(input_terminal[1:])
+            param_cam = list(str_cf.split(","))
+            if len(param_cam) != 2:
                 raise IndexError ("Número de variables incorrecto en 'camino'") 
-            tp3.camino_mas_corto(grafo_netstats, parametros[0], parametros[1])
+            tp3.camino_mas_corto(grafo_netstats, param_cam[0], param_cam[1])
 
         elif input_terminal[0] == "rango":
-            tp3.todos_en_rango(grafo_netstats)
+            str_pn = ' '.join(input_terminal[1:])
+            param_ran = list(str_pn.split(","))
+            if len(param_ran) != 2:
+                raise IndexError ("Número de variables incorrecto en 'rango'")
+            tp3.todos_en_rango(grafo_netstats, param_ran[0], int(param_ran[1]))
 
         elif input_terminal[0] == "diametro":
             tp3.diametro(grafo_netstats)
