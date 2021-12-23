@@ -21,8 +21,6 @@ def ciclo():
     if len(ingreso_terminal) != 2: # Tal vez no funcione si se ingresa comandos por ">" en terminal
         raise IndexError ("Número de variables incorrecto en 'ingreso_terminal'") 
     grafo_netstats = tp3.tsv_to_vert(ingreso_terminal[1])
-    if grafo_netstats == None: 
-        raise Exception # En caso de fallar la lectura del archivo. -- HACER --
 
     while continuar:
         try:

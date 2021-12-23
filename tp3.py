@@ -17,10 +17,10 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
         for linea in cont:
             for elem in linea:
                 grafo.agregar_vertice(elem)
-                if len(linea) != 1:
-                    if elem != linea[0]:
-                        grafo.agregar_arista(linea[0], elem)
-    return grafo # Retornar None o algo así cuando no se pueda entrar al archivo -- HACER --
+                if elem != linea[0]:
+                    grafo.agregar_arista(linea[0], elem)
+    logging.debug(" tp3.py - FIN tsv_to_vert()")
+    return grafo 
 
 
 #---------------------------------------------------------------camino mas corto: LISTO
