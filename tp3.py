@@ -218,10 +218,8 @@ def navegacion(grafo,origen):
 
 #--------------------------------------------------------------conectividad: EN PROCESO
 
-def conectividad(grafo, pagina):
+def conectividad(grafo, pagina, padres):
     pass
-
-
 
 #---------------------------------------------------------------comunidades: EN PROCESO
 
