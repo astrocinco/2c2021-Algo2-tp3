@@ -10,7 +10,7 @@ import sys
 import logging
 
 MOSTRAR_MSJ = False
-logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
+logging.basicConfig(level=logging.WARNING) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
 if MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 
@@ -21,7 +21,7 @@ def ciclo():
     # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓
     # VERIFICAR: lectura ★★✓?, Conectividad ★★✓?
     # EN PROCESO: diametro ★
-    list_op = ["camino", "rango", "diametro", "lectura", "conectados"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino", "rango", "lectura", "conectados","navegacion"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
@@ -38,8 +38,13 @@ def ciclo():
             logging.debug(" netstats.py - Se llamó Ctrl+D en ciclo(). FIN DE PROGRAMA")
             break # este break cortaría el while True
 
-        if input_terminal == "listar_operaciones":
-            tp3.listar_operaciones(list_op)
+        if input_terminal[0] == "listar_operaciones":
+            #tp3.listar_operaciones(list_op)
+            print("navegacion")
+            print("camino")
+            print("en_rango")
+            print("lectura")
+            print("conectados")
 
         elif input_terminal[0] == "camino":
             str_cf = ' '.join(input_terminal[1:])
@@ -78,9 +83,16 @@ def ciclo():
                 raise IndexError ("Número de variables incorrecto en 'conectados'") 
             tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad)
 
+
+        elif input_terminal[0] == "clustering":
+            #de aca hay que conseguir solo la primera palabra, y que todo el resto sea otra
+            if len(input_terminal) > 1:
+                tp3.clustering(grafo_netstats,input_terminal[1])
+            else:
+                tp3.clustering(grafo_netstats,None)
+
         else:
             print("El comando ingresado no existe. Inténtelo de nuevo")
-
 
 
 ciclo()

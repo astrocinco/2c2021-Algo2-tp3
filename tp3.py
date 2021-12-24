@@ -4,15 +4,9 @@ import heapq
 import csv
 from collections import deque
 import logging
-from netstats import MOSTRAR_MSJ
-
-logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
-if MOSTRAR_MSJ == False:
-    logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.WARNING) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
 
 MAX_LEN_NAVEGACION = 20
-
-
 
 def listar_operaciones(list_op):
      for func in list_op:
@@ -60,7 +54,7 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
             if w in visitados:
                 continue
             orden[w] = orden[v] + 1
-            #logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
+            logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
             padres[w] = v
             if w == destino:
                 return padres
@@ -160,7 +154,6 @@ def lectura(grafo, paginas_str):
     else: 
         paginas = paginas_str
     orden = []
-
     if len(paginas) < 2:
         raise IndexError ("Numero de variables incorrecto en 'lectura'") 
 
@@ -182,8 +175,8 @@ def lectura(grafo, paginas_str):
 
 def _navegacion(grafo,actual,orden):
     logging.debug(" tp3.py - _navegacion()")
-    if len(orden) >= MAX_LEN_NAVEGACION + 1: # No estoy seguro si está bien dejarlo como constante global. Tal vez mejor como constante adentro de _navegacion?
-        return True #true o solo return?? # Mucho no importa, no hacemos nada con lo que retorne. Si pones true debería haber un false en algún lado
+    if len(orden) >= MAX_LEN_NAVEGACION:
+        return True 
     orden.append(actual)
     adyacentes = grafo.adyacentes(actual)
     if len(adyacentes) > 0:
@@ -193,6 +186,8 @@ def _navegacion(grafo,actual,orden):
 
 
 def navegacion(grafo,origen):
+    if origen not in grafo.obtener_vertices():
+        return
     logging.debug(" tp3.py - navegacion()")
     navegados = []
     _navegacion(grafo,origen,navegados)
@@ -205,48 +200,9 @@ def navegacion(grafo,origen):
 
 
 
-#---------------------------------------------------------------Conectividad: EN PROCESO
+def conectividad(grafo, pagina):
+    pass
 
-
-
-def bfs_con(grafo, pagina, visitados, padres):#O(V+E)
-    logging.debug(" tp3.py - bfs_con()")
-    padres[pagina] = None
-    visitados.add(pagina)
-    q = Deque()
-    q.append(pagina)
-
-    while q:
-        v = q.pop()
-        for w in grafo.adyacentes(v):
-            if w in visitados:
-                if w == pagina:
-                    padres[w] = v
-                    return
-                continue
-            #logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
-            padres[w] = v
-            if w == pagina:
-                return padres
-            visitados.add(w)
-            q.append(w)
-
-    logging.debug(" tp3.py - FIN bfs_con()")
-
-
-
-def conectividad(grafo, pagina, padres):
-    logging.debug(" tp3.py - conectividad()")
-    visitados = set()
-    if pagina not in padres:
-        bfs_con(grafo, pagina, visitados, padres)
-
-    actual = padres[pagina]
-    while actual != pagina:
-        print (actual, end = ", ")
-        actual = padres[actual]
-    print(actual, end = ", ")
-    logging.debug(" tp3.py - conectividad()")
 
 
 #---------------------------------------------------------------comunidades: EN PROCESO
@@ -255,8 +211,12 @@ def conectividad(grafo, pagina, padres):
 Donde Vj,...,VkVj,...,Vk son los vértices que tienen como adyacentes a Vi (ya que las Labels se están propagando). Para el caso de un grafo no dirigido, son los mismos adyacentes a Vi, pero en caso de un grafo dirigido se debe tener en cuenta las aristas de entrada. Se tiene en cuenta la última actualización realizada, inclusive si ya fueron procesados en esta iteración (actualización asincrónica). max_freq
 max_freq es una función que devuelve la Label que aparece más frecuentemente entre todos los adyacentes a Vi. En caso de empate, es igual cuál de los máximos devolver."""
 
-def max_freq(adyacentes):
-    pass
+def max_freq(adyacentes,label):
+    contador = {}
+    for i in adyacentes:
+        contador[i] = label[i]
+
+
 
 
 def comunidades(grafo,pagina):
@@ -270,10 +230,57 @@ def comunidades(grafo,pagina):
 
     for i in orden:
         adyacentes = grafo.adyacentes(i)
-        label[i] = max_freq(adyacentes)
-
-
-    
-    
-    
+        label[i] = max_freq(adyacentes,orden)
     return
+
+
+#---------------------------------------------------------------coef por clustering: hay algo mal, da numeros muy altos, pero en general creo que funciona
+
+#notas finales: clustering sin indicacin particular anda bien. en los particulares no da bien
+
+#en el general hay que hacer que devuelva con 3 cifras sign.
+
+def _clustering(grafo,vertice):
+    print("entro")
+    c = 0.0
+    adyacentes = grafo.adyacentes(vertice)
+    if len(adyacentes) < 2:
+        return 0
+    grado_salida = len(adyacentes)
+    for i in adyacentes:
+        for v in adyacentes:
+            if grafo.estan_unidos(v,i): 
+                print("estan unidos")
+                c += 1
+    return c/(grado_salida*(grado_salida-1))
+
+
+def clustering(grafo,vertice = None):
+    if vertice:
+        print(_clustering(grafo,vertice))
+        return
+    else:
+        c_general = 0.0
+        vertices = grafo.obtener_vertices()
+        for v in vertices:
+            print(v)
+            valor_v =_clustering(grafo,v)
+            c_general += valor_v
+
+
+
+            print(c_general)
+        c_general = c_general/len(vertices)
+        print(c_general)
+        return
+
+
+
+
+
+
+
+
+
+
+
