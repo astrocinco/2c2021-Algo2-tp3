@@ -17,7 +17,7 @@ def ciclo():
     # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓
     # VERIFICAR: lectura ★★✓?, Conectividad ★★✓?
     # EN PROCESO: diametro ★
-    list_op = ["camino", "rango", "navegacion", "lectura", "conectados"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino", "rango", "navegacion", "lectura", "conectados","clustering"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}

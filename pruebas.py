@@ -124,9 +124,24 @@ def prueba_input():
 	
 
 
+def prueba_clustering():
+	grafo = Grafo()
 
+	grafo.agregar_vertice("1")
+	grafo.agregar_vertice("2")
+	grafo.agregar_vertice("3")
+	grafo.agregar_vertice("4")
+
+	grafo.agregar_arista("1","2")
+	grafo.agregar_arista("1","3")
+	grafo.agregar_arista("1","4")
+	grafo.agregar_arista("3","4")
+	grafo.agregar_arista("4","3")
+
+	tp3.clustering(grafo,"1")
 
 def pruebas():
+	prueba_clustering()
 	pruebas_varias()
 	return
 	pruebas_vertices()

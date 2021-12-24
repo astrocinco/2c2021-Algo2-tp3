@@ -4,7 +4,85 @@ import heapq
 import csv
 from collections import deque
 import logging
+
 logging.basicConfig(level=logging.WARNING) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
+
+
+
+
+
+class _Nodo:
+    def __init__(self, dato, prox=None):
+        self.dato = dato
+        self.prox = prox
+
+class Pila:
+    def __init__(self):
+        self.tope = None
+
+    def apilar(self, dato):
+        self.tope = _Nodo(dato, self.tope)
+
+    def desapilar(self):
+        dato = self.tope.dato
+        self.tope = self.tope.prox
+        return dato
+
+    def ver_tope(self):
+        return self.tope.dato
+
+    def esta_vacia(self):
+        return self.tope is None
+
+
+
+class Cola:
+    '''Representa a una cola, con operaciones de encolar y 
+       desencolar. El primero en ser encolado es también el primero
+       en ser desencolado.'''
+
+    def __init__(self):
+        '''Crea una cola vacía'''
+        self.frente = None
+        self.ultimo = None
+
+    def encolar(self, dato):
+        '''Agrega el elemento x como último de la cola.'''
+        nodo = _Nodo(dato)
+        if self.esta_vacia():
+            self.frente = nodo
+        else:
+            self.ultimo.prox = nodo
+        self.ultimo = nodo
+
+    def desencolar(self):
+        '''Desencola el primer elemento y devuelve su valor
+           Pre: la cola NO está vacía.
+           Pos: el nuevo frente es el que estaba siguiente al frente anterior'''
+        if self.esta_vacia():
+            raise ValueError("Cola vacía")
+        dato = self.frente.dato
+        self.frente = self.frente.prox
+        if self.frente is None:
+            self.ultimo = None
+        return dato
+
+    def ver_frente(self):
+        '''Devuelve el elemento que está en el frente de la cola.
+           Pre: la cola NO está vacía.'''
+        if self.esta_vacia():
+            raise ValueError("Cola vacía")
+        return self.frente.dato
+
+    def esta_vacia(self):
+        '''Devuelve True o False según si la cola está vacía o no'''
+        return self.frente is None
+
+
+
+
+
+
 
 MAX_LEN_NAVEGACION = 20
 
@@ -41,7 +119,7 @@ def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
 
 
 
-def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_mas_corto, todos_en_rango
+def bfs(grafo, inicio,destino, visitados, orden, padres,n,dist_n):#O(V+E) # Aux: camino_mas_corto, todos_en_rango
     logging.debug(" tp3.py - bfs()")
     padres[inicio] = None
     orden[inicio] = 0
@@ -51,19 +129,20 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
     while q:
         v = q.pop()
         for w in grafo.adyacentes(v):
-            if w in visitados:
-                continue
-            orden[w] = orden[v] + 1
-            logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
-            padres[w] = v
-            if w == destino:
-                return padres
-            visitados.add(w)
-            q.append(w)
+            if w not in visitados:
+                orden[w] = orden[v] + 1
+                if orden[w] == n:
+                    dist_n.append(w)
+                logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
+                padres[w] = v
+                if w == destino:
+                    return padres
+                visitados.add(w)
+                q.append(w)
 
     logging.debug(" tp3.py - FIN bfs()")
 
-
+#---------------------------------------------------------------camino mas corto: anda mal
 
 def camino_mas_corto(grafo,origen,destino): #O(V+E)
     logging.debug(" tp3.py - camino_mas_corto()")
@@ -73,7 +152,7 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     visitados = set()
     padres = {}
     orden = {}
-    bfs(grafo,origen,destino,visitados,orden,padres)
+    bfs(grafo,origen,destino,visitados,orden,padres,0,[])
     camino = reconstruir_camino(padres,origen,destino)
     for i in range(len(camino)-1):
         print(camino[i],"-> ",end="")
@@ -84,27 +163,27 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
 #---------------------------------------------------------------diametro: NO ANDA
 
 def caminos_minimos(grafo,origen,actual): 
-    cola = Deque()
+    cola = Cola()
     distancia = {}
     distancia[origen] = 0
     visitados = set()
     visitados.add(origen)
-    cola.append(origen)
+    cola.encolar(origen)
     camino = []
     camino.append(origen)
     while cola:
-        v = cola.pop()
+        v = cola.desencolar()
         for w in grafo.adyacentes(v):
             if w not in visitados:
                 distancia[w] = distancia[v] + 1 
                 #+1 o +peso_arista
 
                 camino.append(w)
-                cola.append(w)
+                cola.encolar(w)
                 visitados.add(w)
     return camino
 
-
+#---------------------------------------------------------------diametro: no anda
 
 def diametro(grafo):#tiene que dar 1>3>6>7
     max_min_dist = 0
@@ -128,21 +207,35 @@ def diametro(grafo):#tiene que dar 1>3>6>7
     print("Costo: ",len(mas_largo))
     return
 
-#---------------------------------------------------------------todos en rango: LISTO
 
-def todos_en_rango(grafo,pagina,rango):#O(V+E + V) = O(V+E)
+
+
+#---------------------------------------------------------------todos en rango: no anda
+
+def bfs_tuneado(grafo, inicio, visitados, orden, n, res):
+    orden[inicio] = 0
+    visitados.add(inicio)
+    q = Cola()
+    q.encolar(inicio)
+    while not q.esta_vacia():
+        v = q.desencolar()
+        for w in grafo.adyacentes(v):
+            if w not in visitados:
+                orden[w] = orden[v] + 1
+                if orden[w] > n: return
+                if orden[w] == n:
+                    res.append(w)
+                visitados.add(w)
+                q.encolar(w)
+    return
+
+def todos_en_rango(grafo,pagina,rango):#O(V+E)
     visitados = set()
-    puestos = {}
     orden = {}
-    bfs(grafo,pagina,None,visitados,orden,puestos)#O(v+e)
-
-    cantidad = 0
-    for i in orden: #O(v)
-        logging.debug(f" tp3.py - todos_en_rango() - {i}")
-        if orden[i] == rango:
-            cantidad+=1
-    print(cantidad)
-    return cantidad
+    resultado = []
+    bfs_tuneado(grafo,pagina,visitados,orden,rango,resultado)
+    print(len(resultado))
+    
 
 #---------------------------------------------------------------lectura 2 am: LISTO
 
@@ -154,11 +247,12 @@ def lectura(grafo, paginas_str):
     else: 
         paginas = paginas_str
     orden = []
-    if len(paginas) < 2:
-        raise IndexError ("Numero de variables incorrecto en 'lectura'") 
+
+    #if len(paginas) < 2:
+    #    raise IndexError ("Numero de variables incorrecto en 'lectura'") 
 
     for i in range(len(paginas)-1):
-        if grafo.estan_unidos(paginas[i],paginas[i+1]):
+        if grafo.estan_unidos(paginas[i+1],paginas[i]):
             orden.append(paginas[i])
             if i == (len(paginas)-2):
                 orden.append(paginas[len(paginas)-1])
@@ -175,7 +269,7 @@ def lectura(grafo, paginas_str):
 
 def _navegacion(grafo,actual,orden):
     logging.debug(" tp3.py - _navegacion()")
-    if len(orden) >= MAX_LEN_NAVEGACION:
+    if len(orden) > MAX_LEN_NAVEGACION:
         return True 
     orden.append(actual)
     adyacentes = grafo.adyacentes(actual)
@@ -238,26 +332,31 @@ def comunidades(grafo,pagina):
 
 #notas finales: clustering sin indicacin particular anda bien. en los particulares no da bien
 
-#en el general hay que hacer que devuelva con 3 cifras sign.
+
+
 
 def _clustering(grafo,vertice):
-    print("entro")
-    c = 0.0
+
+
+
     adyacentes = grafo.adyacentes(vertice)
     if len(adyacentes) < 2:
         return 0
     grado_salida = len(adyacentes)
+    c = 0.0
     for i in adyacentes:
         for v in adyacentes:
-            if grafo.estan_unidos(v,i): 
-                print("estan unidos")
+            if grafo.estan_unidos(i,v):  
                 c += 1
-    return c/(grado_salida*(grado_salida-1))
+
+    resultado = c/(grado_salida*(grado_salida-1))
+    return resultado
 
 
 def clustering(grafo,vertice = None):
     if vertice:
-        print(_clustering(grafo,vertice))
+        resultado = _clustering(grafo,vertice)
+        print("{:.3}".format(resultado))
         return
     else:
         c_general = 0.0
@@ -267,13 +366,9 @@ def clustering(grafo,vertice = None):
             valor_v =_clustering(grafo,v)
             c_general += valor_v
 
-
-
-            print(c_general)
         c_general = c_general/len(vertices)
-        print(c_general)
+        print("{:.3}".format(c_general))
         return
-
 
 
 
