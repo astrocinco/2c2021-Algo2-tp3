@@ -10,7 +10,6 @@ if tp3.MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 
 
-
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
     # BIEN: rango ★✓, navegacion ★✓, 
@@ -76,9 +75,10 @@ def ciclo():
 
 
         elif input_terminal[0] == "clustering":
-            #de aca hay que conseguir solo la primera palabra, y que todo el resto sea otra
+            str_clu = ' '.join(input_terminal[1:])
+
             if len(input_terminal) > 1:
-                tp3.clustering(grafo_netstats,input_terminal[1])
+                tp3.clustering(grafo_netstats,str_clu)
             else:
                 tp3.clustering(grafo_netstats,None)
 

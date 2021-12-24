@@ -1,3 +1,4 @@
+
 import heapq
 import csv
 import logging
@@ -6,11 +7,9 @@ from grafo import Grafo
 from pilacola import Pila, Cola
 from collections import deque
 
-MOSTRAR_MSJ = False
+logging.basicConfig(level=logging.WARNING) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
 
-logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
-if MOSTRAR_MSJ == False:
-    logging.basicConfig(level=logging.WARNING)
+
 MAX_LEN_NAVEGACION = 20
 
 def listar_operaciones(list_op):
@@ -30,6 +29,7 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
                     grafo.agregar_arista(linea[0], elem)
     logging.debug(" tp3.py - FIN tsv_to_vert()")
     return grafo 
+
 
 #---------------------------------------------------------------camino mas corto: LISTO
 
@@ -133,6 +133,9 @@ def diametro(grafo):#tiene que dar 1>3>6>7
     print("Costo: ",len(mas_largo))
     return
 
+
+
+
 #---------------------------------------------------------------todos en rango: no anda
 
 def bfs_tuneado(grafo, inicio, visitados, orden, n, res):
@@ -152,8 +155,6 @@ def bfs_tuneado(grafo, inicio, visitados, orden, n, res):
                 q.encolar(w)
     return
 
-
-
 def todos_en_rango(grafo,pagina,rango):#O(V+E)
     visitados = set()
     orden = {}
@@ -161,6 +162,7 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E)
     bfs_tuneado(grafo,pagina,visitados,orden,rango,resultado)
     print(len(resultado))
     
+
 #---------------------------------------------------------------lectura 2 am: LISTO
 
 def lectura(grafo, paginas_str):
@@ -214,7 +216,7 @@ def navegacion(grafo,origen):
         print(navegados[i],"-> ",end="")
     print(navegados[len(navegados)-1])
 
-    return True
+    return
 
 #--------------------------------------------------------------conectividad: EN PROCESO
 
@@ -255,12 +257,7 @@ def comunidades(grafo,pagina):
 #notas finales: clustering sin indicacin particular anda bien. en los particulares no da bien
 
 
-
-
 def _clustering(grafo,vertice):
-
-
-
     adyacentes = grafo.adyacentes(vertice)
     if len(adyacentes) < 2:
         return 0
@@ -276,20 +273,20 @@ def _clustering(grafo,vertice):
 
 
 def clustering(grafo,vertice = None):
+
     if vertice:
         resultado = _clustering(grafo,vertice)
-        print("{:.3}".format(resultado))
+        print(round(resultado,3))
         return
     else:
         c_general = 0.0
         vertices = grafo.obtener_vertices()
         for v in vertices:
-            print(v)
             valor_v =_clustering(grafo,v)
             c_general += valor_v
 
         c_general = c_general/len(vertices)
-        print("{:.3}".format(c_general))
+        print(round(c_general,3))
         return
 
 
