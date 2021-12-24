@@ -17,7 +17,7 @@ def ciclo():
     # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓
     # VERIFICAR: lectura ★★✓?, Conectividad ★★✓?
     # EN PROCESO: diametro ★
-    list_op = ["camino", "rango", "lectura", "conectados","navegacion"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino", "rango", "navegacion", "lectura", "conectados"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
@@ -35,12 +35,7 @@ def ciclo():
             break # este break cortaría el while True
 
         if input_terminal[0] == "listar_operaciones":
-            #tp3.listar_operaciones(list_op)
-            print("navegacion")
-            print("camino")
-            print("en_rango")
-            print("lectura")
-            print("conectados")
+            tp3.listar_operaciones(list_op)
 
         elif input_terminal[0] == "camino":
             str_cf = ' '.join(input_terminal[1:])
