@@ -7,8 +7,10 @@ from grafo import Grafo
 from pilacola import Pila, Cola
 from collections import deque
 
-logging.basicConfig(level=logging.WARNING) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
-
+MOSTRAR_MSJ = False
+logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
+if MOSTRAR_MSJ == False:
+    logging.basicConfig(level=logging.WARNING)
 
 MAX_LEN_NAVEGACION = 20
 
@@ -111,7 +113,51 @@ def caminos_minimos(grafo,origen,actual):
 
 #---------------------------------------------------------------diametro: no anda
 
-def diametro(grafo):#tiene que dar 1>3>6>7
+
+
+def diametro(grafo):
+    logging.debug(" tp3.py - diametro()")
+    max_actual = 0
+    pad = {}
+    max_vert = None
+    for vertice in grafo.obtener_vertices():
+        distancia, padres = cam_min_bfs(grafo, vertice)
+        for vertice_2 in distancia:
+            if distancia[vertice_2] > max_actual:
+                max_actual = distancia[vertice_2]
+                pad = padres
+                max_vert = vertice
+    while max_vert != None:
+        print(max_vert)
+        max_vert = pad[max_vert]
+    print("Costo:", len(pad))
+
+
+def cam_min_bfs(grafo, vertice):
+    logging.debug(" tp3.py - cam_min_bfs()")
+    padres = {}
+    padres[vertice] = None
+    distancia = {}
+    visitados = set()
+    q = Cola()
+    q.encolar(vertice)
+    distancia[vertice] = 0
+    contador = 0
+    while not q.esta_vacia():
+        contador += 1
+        actual = q.desencolar()
+        #logging.debug(f" tp3.py - cam_min_bfs() q: {actual} contador {contador}")
+        for ady in grafo.adyacentes(actual):
+            if ady not in visitados:
+                padres[ady] = actual
+                visitados.add(ady)
+                q.encolar(ady)
+                distancia[ady] = distancia[actual] + 1
+    return distancia, padres
+
+
+
+def diametro_2(grafo):#tiene que dar 1>3>6>7
     max_min_dist = 0
 
     mas_largo = []
@@ -132,9 +178,6 @@ def diametro(grafo):#tiene que dar 1>3>6>7
     print(mas_largo[i+1])
     print("Costo: ",len(mas_largo))
     return
-
-
-
 
 #---------------------------------------------------------------todos en rango: no anda
 
