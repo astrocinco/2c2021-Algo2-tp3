@@ -5,16 +5,16 @@ import tp3
 import sys
 import logging
 
-MOSTRAR_MSJ = False
-logging.basicConfig(level=logging.WARNING) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
-if MOSTRAR_MSJ == False:
+logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
+if tp3.MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 
 
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
-    # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓
+    # BIEN: rango ★✓, navegacion ★✓, 
+    # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓, clustering ★★✓
     # VERIFICAR: lectura ★★✓?, Conectividad ★★✓?
     # EN PROCESO: diametro ★
     list_op = ["camino", "rango", "navegacion", "lectura", "conectados","clustering"] # Esto va acá? O podría ir como variable global?
