@@ -4,9 +4,15 @@ import heapq
 import csv
 from collections import deque
 import logging
+from netstats import MOSTRAR_MSJ
+
 logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
+if MOSTRAR_MSJ == False:
+    logging.basicConfig(level=logging.WARNING)
 
 MAX_LEN_NAVEGACION = 20
+
+
 
 def listar_operaciones(list_op):
      for func in list_op:
@@ -54,7 +60,7 @@ def bfs(grafo, inicio,destino, visitados, orden, padres):#O(V+E) # Aux: camino_m
             if w in visitados:
                 continue
             orden[w] = orden[v] + 1
-            logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
+            #logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
             padres[w] = v
             if w == destino:
                 return padres
@@ -199,9 +205,48 @@ def navegacion(grafo,origen):
 
 
 
-def conectividad(grafo, pagina):
-    pass
+#---------------------------------------------------------------Conectividad: EN PROCESO
 
+
+
+def bfs_con(grafo, pagina, visitados, padres):#O(V+E)
+    logging.debug(" tp3.py - bfs_con()")
+    padres[pagina] = None
+    visitados.add(pagina)
+    q = Deque()
+    q.append(pagina)
+
+    while q:
+        v = q.pop()
+        for w in grafo.adyacentes(v):
+            if w in visitados:
+                if w == pagina:
+                    padres[w] = v
+                    return
+                continue
+            #logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
+            padres[w] = v
+            if w == pagina:
+                return padres
+            visitados.add(w)
+            q.append(w)
+
+    logging.debug(" tp3.py - FIN bfs_con()")
+
+
+
+def conectividad(grafo, pagina, padres):
+    logging.debug(" tp3.py - conectividad()")
+    visitados = set()
+    if pagina not in padres:
+        bfs_con(grafo, pagina, visitados, padres)
+
+    actual = padres[pagina]
+    while actual != pagina:
+        print (actual, end = ", ")
+        actual = padres[actual]
+    print(actual, end = ", ")
+    logging.debug(" tp3.py - conectividad()")
 
 
 #---------------------------------------------------------------comunidades: EN PROCESO

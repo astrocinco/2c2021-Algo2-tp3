@@ -8,20 +8,23 @@ from grafo import Grafo
 import tp3
 import sys
 import logging
-logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
 
-INPUT_ERROR_NO_EXISTE_COMANDO = "El comando ingresado no existe. Inténtelo de nuevo"
+MOSTRAR_MSJ = False
+logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
+if MOSTRAR_MSJ == False:
+    logging.basicConfig(level=logging.WARNING)
 
 
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
     # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓
-    # VERIFICAR: lectura ★★✓?
+    # VERIFICAR: lectura ★★✓?, Conectividad ★★✓?
     # EN PROCESO: diametro ★
-    list_op = ["camino","rango" ,"diametro","lectura"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino", "rango", "diametro", "lectura", "conectados"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
+    cfc_conectividad = {}
 
     if len(ingreso_terminal) != 2: # Tal vez no funcione si se ingresa comandos por ">" en terminal
         raise IndexError ("Número de variables incorrecto en 'ingreso_terminal'") 
@@ -71,12 +74,12 @@ def ciclo():
         elif input_terminal[0] == "conectados":
             str_c = ' '.join(input_terminal[1:])
             param_con = list(str_c.split(","))
-            if len(param_nav) != 1:
+            if len(param_con) != 1:
                 raise IndexError ("Número de variables incorrecto en 'conectados'") 
-            tp3.conectividad(grafo_netstats, param_nav[0])
+            tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad)
 
         else:
-            print(INPUT_ERROR_NO_EXISTE_COMANDO)
+            print("El comando ingresado no existe. Inténtelo de nuevo")
 
 
 
