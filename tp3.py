@@ -8,9 +8,11 @@ from pilacola import Pila, Cola
 from collections import deque
 
 MOSTRAR_MSJ = False
-logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
 if MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
+else:
+    logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
+
 
 MAX_LEN_NAVEGACION = 20
 

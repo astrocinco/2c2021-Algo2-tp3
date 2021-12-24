@@ -5,14 +5,16 @@ import tp3
 import sys
 import logging
 
-logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
 if tp3.MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
+else:
+    logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
+
 
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
-    # BIEN: rango ★✓, navegacion ★✓, 
+    # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓
     # HECHAS: Camino ★✓, rango ★✓, navegacion ★✓, clustering ★★✓
     # VERIFICAR: lectura ★★✓?, Conectividad ★★✓?
     # EN PROCESO: diametro ★
