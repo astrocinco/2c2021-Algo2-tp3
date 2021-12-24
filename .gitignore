@@ -1,10 +1,7 @@
-__pycache__
-Wiki-parsed.tar.gz
-wiki-reducido-75000/._wiki-reducido-75000.tsv
-._wiki-reducido-75000.tsv
-wiki-reducido-75000/wiki-reducido-75000.tsv
-Wiki-parsed.txt
-.~lock.5000.tsv#
-parsed.txt
-__pycache__/grafo.cpython-38.pyc
-camino
+*.zip
+*.pyc
+*.tsv
+*.tar.gz
+*.tsv#
+*.txt
+__pycache__/
