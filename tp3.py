@@ -198,7 +198,7 @@ def navegacion(grafo,origen):
 
     return True
 
-
+#--------------------------------------------------------------conectividad: EN PROCESO
 
 def conectividad(grafo, pagina):
     pass
