@@ -144,9 +144,8 @@ def diametro_rpl(grafo):
                 max_actual = distancia[vertice_2]
                 di_m = distancia
                 p = p_o
-    print("Costo:", max_actual)
     aux_print(di_m, p)
-    return max_actual
+    print("Costo:", max_actual)
 
 def cam_min_bfs_rpl(grafo, vertice):
     distancia = {}

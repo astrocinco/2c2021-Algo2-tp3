@@ -17,7 +17,7 @@ def ciclo():
     # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓
     # HECHAS MAL: Camino ★, lectura ★★, diametro ★
     # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★, Ciclo ★★★ 
-    list_op = ["camino", "rango", "navegacion", "lectura", "clustering", "diametro"] # Esto va acá? O podría ir como variable global?
+    list_op = ["rango", "navegacion", "clustering", "diametro"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
