@@ -52,7 +52,7 @@ def ciclo():
             tp3.todos_en_rango(grafo_netstats, param_ran[0], int(param_ran[1]))
 
         elif input_terminal[0] == "diametro": # -- HACER --
-            tp3.diametro_rpl(grafo_netstats)
+            tp3.diametro(grafo_netstats)
 
         elif input_terminal[0] == "lectura":
             if len(input_terminal) < 2:

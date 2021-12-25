@@ -37,7 +37,7 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     return grafo 
 
 
-#---------------------------------------------------------------camino mas corto: LISTO
+#---------------------------------------------------------------
 
 def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
     logging.debug(" tp3.py - reconstruir_camino()")
@@ -92,7 +92,7 @@ def camino_mas_corto(grafo,origen,destino): #O(V+E)
     print(camino[len(camino) -1])
     print("Costo: ",len(camino))
 
-#---------------------------------------------------------------diametro: NO ANDA
+#---------------------------------------------------------------camino minimo: NO ANDA
 
 def caminos_minimos(grafo,origen,actual): 
     cola = Cola()
@@ -117,57 +117,9 @@ def caminos_minimos(grafo,origen,actual):
 
 #---------------------------------------------------------------diametro: no anda
 
-#-
-def aux_print(distancia, padres):
-    max_actual = 0
-    for key in distancia:
-        if distancia[key] > max_actual:
-            lejano = key
 
-    actual = lejano
-    print(actual, end="")
-    actual = padres[actual]
-    while actual != None:
-        print(" ->", actual, end="")
-        actual = padres[actual]
-    print("")
 
-def diametro_rpl(grafo):
-    max_actual = 0
-    p = {}
-    di_m = {}
-    for vertice in grafo.obtener_vertices():
-        distancia, p_o = cam_min_bfs_rpl(grafo, vertice)
-        for vertice_2 in distancia:
-            if distancia[vertice_2] > max_actual:
-                #print(f"{} reemplazado por {}")
-                max_actual = distancia[vertice_2]
-                di_m = distancia
-                p = p_o
-    aux_print(di_m, p)
-    print("Costo:", max_actual)
-
-def cam_min_bfs_rpl(grafo, vertice):
-    distancia = {}
-    visitados = set()
-    q = Cola()
-    q.encolar(vertice)
-    distancia[vertice] = 0
-    padres = {vertice:None}
-    visitados.add(vertice)
-    while not q.esta_vacia():
-        actual = q.desencolar()
-        for ady in grafo.adyacentes(actual):
-            if ady not in visitados:
-                visitados.add(ady)
-                q.encolar(ady)
-                distancia[ady] = distancia[actual] + 1 # Cada vertice visitado está uno más lejos del padre
-                padres[ady] = actual
-                logging.debug(f"El padre de {ady} es {actual}")
-    return distancia, padres
-#-
-
-#---------------------------------------------------------------todos en rango: no anda
+#---------------------------------------------------------------todos en rango: LISTO
 
 def bfs_tuneado(grafo, inicio, visitados, orden, n, res):
     orden[inicio] = 0
@@ -194,7 +146,7 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E)
     print(len(resultado))
     
 
-#---------------------------------------------------------------lectura 2 am: LISTO
+#---------------------------------------------------------------lectura 2 am: anda mal
 
 def lectura(grafo, paginas_str):
     if type(paginas_str) == str:
@@ -283,9 +235,7 @@ def comunidades(grafo,pagina):
     return
 
 
-#---------------------------------------------------------------coef por clustering: hay algo mal, da numeros muy altos, pero en general creo que funciona
-
-#notas finales: clustering sin indicacin particular anda bien. en los particulares no da bien
+#---------------------------------------------------------------clustering: LISTO
 
 
 def _clustering(grafo,vertice):
@@ -304,7 +254,6 @@ def _clustering(grafo,vertice):
 
 
 def clustering(grafo,vertice = None):
-
     if vertice:
         resultado = _clustering(grafo,vertice)
         print(round(resultado,3))
@@ -319,13 +268,4 @@ def clustering(grafo,vertice = None):
         c_general = c_general/len(vertices)
         print(round(c_general,3))
         return
-
-
-
-
-
-
-
-
-
 
