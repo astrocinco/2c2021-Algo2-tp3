@@ -38,59 +38,49 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
 
 
 #---------------------------------------------------------------
+def rearmar_camino(padres, destino):
+    logging.debug(" tp3.py - rearmar_camino()")
+    p = Pila()
+    actual = destino
+    while actual != None:
+        p.apilar(actual)
+        actual = padres[actual]
 
-def reconstruir_camino(padres, inicio, fin): # Aux: camino_mas_corto
-    logging.debug(" tp3.py - reconstruir_camino()")
-    v = fin
-    camino = []
-    while v != inicio:
-        camino.append(v)
-        v = padres[v]
-    camino.append(inicio)
-    return camino[::-1]
+    largo_p = 0
+    e = p.desapilar()
+    print(e, end="")
+    while not p.esta_vacia():
+        e = p.desapilar()
+        largo_p += 1
+        print(" ->", e, end="")
+    print("\nCosto:", largo_p)
 
-
-
-def bfs(grafo, inicio,destino, visitados, orden, padres,n,dist_n):#O(V+E) # Aux: camino_mas_corto, todos_en_rango
-    logging.debug(" tp3.py - bfs()")
-    padres[inicio] = None
-    orden[inicio] = 0
-    visitados.add(inicio)
-    q = Deque()
-    q.append(inicio)
-    while q:
-        v = q.pop()
-        for w in grafo.adyacentes(v):
-            if w not in visitados:
-                orden[w] = orden[v] + 1
-                if orden[w] == n:
-                    dist_n.append(w)
-                logging.debug(f" tp3.py - bfs() - {w} orden {orden[w]}")
-                padres[w] = v
-                if w == destino:
-                    return padres
-                visitados.add(w)
-                q.append(w)
-
-    logging.debug(" tp3.py - FIN bfs()")
-
-#---------------------------------------------------------------camino mas corto: anda mal
-
-def camino_mas_corto(grafo,origen,destino): #O(V+E)
-    logging.debug(" tp3.py - camino_mas_corto()")
-    if not grafo.pertenece(origen) or not grafo.pertenece(destino): 
-        logging.debug(" tp3.py - camino_mas_corto() - ORIGEN O DESTINO NO PERTENECEN AL GRAFO")
-        return
+def bfs_camino(grafo, origen, destino):
+    logging.debug(" tp3.py - bfs_camino()")
+    q = Cola()
+    padres = {origen:None}
     visitados = set()
-    padres = {}
-    orden = {}
-    bfs(grafo,origen,destino,visitados,orden,padres,0,[])
-    camino = reconstruir_camino(padres,origen,destino)
-    for i in range(len(camino)-1):
-        print(camino[i],"-> ",end="")
-        
-    print(camino[len(camino) -1])
-    print("Costo: ",len(camino))
+    visitados.add(origen)
+    q.encolar(origen)
+
+    while not q.esta_vacia():
+        v = q.desencolar()
+        for ady in grafo.adyacentes(v):
+            if ady not in visitados:
+                visitados.add(ady)
+                q.encolar(ady)
+                padres[ady] = v
+                if ady == destino:
+                    return padres
+    return None
+
+def camino_mas_corto(grafo, origen, destino):
+    logging.debug(" tp3.py - camino_mas_corto()")
+    padres = bfs_camino(grafo, origen, destino)
+    if padres == None:
+        print("No se encontro recorrido")
+        return
+    rearmar_camino(padres, destino)
 
 #---------------------------------------------------------------camino minimo: NO ANDA
 

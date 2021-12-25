@@ -14,10 +14,10 @@ else:
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
-    # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓
-    # HECHAS MAL: Camino ★, lectura ★★, diametro ★
+    # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓, camino ★
+    # HECHAS MAL: , lectura ★★, diametro ★
     # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★, Ciclo ★★★ 
-    list_op = ["rango", "navegacion", "clustering", "diametro"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino", "rango", "navegacion", "clustering"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
