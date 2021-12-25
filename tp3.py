@@ -28,6 +28,8 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
         cont = csv.reader(archivo, delimiter="\t") # Revisar carg mem, revisar ""
         for linea in cont:
             for elem in linea:
+                if elem == "":
+                    continue
                 grafo.agregar_vertice(elem)
                 if elem != linea[0]:
                     grafo.agregar_arista(linea[0], elem)
@@ -115,71 +117,56 @@ def caminos_minimos(grafo,origen,actual):
 
 #---------------------------------------------------------------diametro: no anda
 
-
-
-def diametro(grafo):
-    logging.debug(" tp3.py - diametro()")
+#-
+def aux_print(distancia, padres):
     max_actual = 0
-    pad = {}
-    max_vert = None
+    for key in distancia:
+        if distancia[key] > max_actual:
+            lejano = key
+
+    actual = lejano
+    print(actual, end="")
+    actual = padres[actual]
+    while actual != None:
+        print(" ->", actual, end="")
+        actual = padres[actual]
+    print("")
+
+def diametro_rpl(grafo):
+    max_actual = 0
+    p = {}
+    di_m = {}
     for vertice in grafo.obtener_vertices():
-        distancia, padres = cam_min_bfs(grafo, vertice)
+        distancia, p_o = cam_min_bfs_rpl(grafo, vertice)
         for vertice_2 in distancia:
             if distancia[vertice_2] > max_actual:
+                #print(f"{} reemplazado por {}")
                 max_actual = distancia[vertice_2]
-                pad = padres
-                max_vert = vertice
-    while max_vert != None:
-        print(max_vert)
-        max_vert = pad[max_vert]
-    print("Costo:", len(pad))
+                di_m = distancia
+                p = p_o
+    print("Costo:", max_actual)
+    aux_print(di_m, p)
+    return max_actual
 
-
-def cam_min_bfs(grafo, vertice):
-    logging.debug(" tp3.py - cam_min_bfs()")
-    padres = {}
-    padres[vertice] = None
+def cam_min_bfs_rpl(grafo, vertice):
     distancia = {}
     visitados = set()
     q = Cola()
     q.encolar(vertice)
     distancia[vertice] = 0
-    contador = 0
+    padres = {vertice:None}
+    visitados.add(vertice)
     while not q.esta_vacia():
-        contador += 1
         actual = q.desencolar()
-        #logging.debug(f" tp3.py - cam_min_bfs() q: {actual} contador {contador}")
         for ady in grafo.adyacentes(actual):
             if ady not in visitados:
-                padres[ady] = actual
                 visitados.add(ady)
                 q.encolar(ady)
-                distancia[ady] = distancia[actual] + 1
+                distancia[ady] = distancia[actual] + 1 # Cada vertice visitado está uno más lejos del padre
+                padres[ady] = actual
+                logging.debug(f"El padre de {ady} es {actual}")
     return distancia, padres
-
-
-
-def diametro_2(grafo):#tiene que dar 1>3>6>7
-    max_min_dist = 0
-
-    mas_largo = []
-    for v in grafo.obtener_vertices():
-        camino = caminos_minimos(grafo, v,v)
-        print(camino)
-        if len(camino) > max_min_dist:
-            max_min_dist = len(camino)
-            mas_largo = camino
-
-    #asi no anda, tendre que hacer dfs y verificar no tenga mas adyacentes??
-    #pienso
-    #igual la respuesta esta cerca, este algoritmo recorre todos los vertices
-
-
-    for i in range(len(mas_largo)-1):
-        print(mas_largo[i],"-> ",end="")
-    print(mas_largo[i+1])
-    print("Costo: ",len(mas_largo))
-    return
+#-
 
 #---------------------------------------------------------------todos en rango: no anda
 
