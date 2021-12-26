@@ -24,8 +24,6 @@ class Grafo:
     def agregar_arista(self, vertice_1, vertice_2, peso = 1):
         if not self.pertenece(vertice_1) or not self.pertenece(vertice_2):
             return False
-        # if vertice_1 == vertice_2: # Un vertice puede conectarse con si mismo?
-        #     return False
         self.dic[vertice_1][vertice_2] = peso
         return True
 

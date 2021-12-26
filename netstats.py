@@ -13,27 +13,22 @@ else:
 
 
 def ciclo():
-    logging.debug(" netstats.py - ciclo()")
-    # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓, camino ★✓
-    # HECHAS MAL: , lectura ★★, diametro ★, Ciclo ★★★
-    # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★,  
+    logging.debug(" netstats.py - ciclo()") 
     list_op = ["camino", "rango", "navegacion", "clustering", "lectura"] 
-    continuar = True # Creo que while True sería mejor
+    continuar = True 
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
     sin_hijos_con = {}
 
-    if len(ingreso_terminal) != 2: # Tal vez no funcione si se ingresa comandos por ">" en terminal
-        raise IndexError ("Número de variables incorrecto en 'ingreso_terminal'") 
     grafo_netstats = tp3.tsv_to_vert(ingreso_terminal[1])
 
     while continuar:
         try:
             input_terminal = list(input().split(" "))
         except:
-            continuar = False # Creo que while True sería mejor
+            continuar = False
             logging.debug(" netstats.py - Se llamó Ctrl+D en ciclo(). FIN DE PROGRAMA")
-            break # este break cortaría el while True
+            break 
 
         if input_terminal[0] == "listar_operaciones":
             tp3.listar_operaciones(list_op)
@@ -41,38 +36,28 @@ def ciclo():
         elif input_terminal[0] == "camino":
             str_cf = ' '.join(input_terminal[1:])
             param_cam = list(str_cf.split(","))
-            if len(param_cam) != 2:
-                raise IndexError ("Número de variables incorrecto en 'camino'") 
             tp3.camino_mas_corto(grafo_netstats, param_cam[0], param_cam[1])
 
         elif input_terminal[0] == "rango":
             str_pn = ' '.join(input_terminal[1:])
             param_ran = list(str_pn.split(","))
-            if len(param_ran) != 2:
-                raise IndexError ("Número de variables incorrecto en 'rango'")
             tp3.todos_en_rango(grafo_netstats, param_ran[0], int(param_ran[1]))
 
         elif input_terminal[0] == "diametro": 
             tp3.diametro(grafo_netstats)
 
         elif input_terminal[0] == "lectura":
-            if len(input_terminal) < 2:
-                raise IndexError ("Número de variables incorrecto en 'lectura'") 
             str_lec = ' '.join(input_terminal[1:])
             tp3.lectura(grafo_netstats, str_lec)
 
         elif input_terminal[0] == "navegacion":
             str_n = ' '.join(input_terminal[1:])
             param_nav = list(str_n.split(","))
-            if len(param_nav) != 1:
-                raise IndexError ("Número de variables incorrecto en 'navegacion'") 
             tp3.navegacion(grafo_netstats, param_nav[0])
 
         elif input_terminal[0] == "conectados":
             str_c = ' '.join(input_terminal[1:])
             param_con = list(str_c.split(","))
-            if len(param_con) != 1:
-                raise IndexError ("Número de variables incorrecto en 'conectados'") 
             tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad, sin_hijos_con)
 
         elif input_terminal[0] == "clustering":
@@ -85,8 +70,6 @@ def ciclo():
         elif input_terminal[0] == "ciclo":
             str_cic = ' '.join(input_terminal[1:])
             param_cic = list(str_cic.split(","))
-            if len(param_cic) != 2:
-                raise IndexError ("Número de variables incorrecto en 'ciclo'") 
             tp3.ciclo(grafo_netstats, param_cic[0], int(param_cic[1]))
                 
         else:

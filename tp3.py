@@ -1,21 +1,18 @@
 
-import heapq
 import csv
 import logging
-from os import POSIX_FADV_RANDOM, times_result
-from typing import Deque
 from grafo import Grafo
 from pilacola import Pila, Cola
-from collections import deque
+
+# MNJS DEBUGGING
 
 MOSTRAR_MSJ = False
 if MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 else:
-    logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING"
+    logging.basicConfig(level=logging.DEBUG)
 
-
-MAX_LEN_NAVEGACION = 20
+# FUNCIONES AUXILIARES
 
 def listar_operaciones(list_op):
      for func in list_op:
@@ -26,7 +23,7 @@ def listar_operaciones(list_op):
 def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     logging.debug(" tp3.py - tsv_to_vert()")
     with open(nombre_tsv) as archivo:
-        cont = csv.reader(archivo, delimiter="\t") # Revisar carg mem, revisar ""
+        cont = csv.reader(archivo, delimiter="\t") 
         for linea in cont:
             for elem in linea:
                 if elem == "":
@@ -37,8 +34,8 @@ def tsv_to_vert(nombre_tsv, grafo = Grafo()):
     logging.debug(" tp3.py - FIN tsv_to_vert()")
     return grafo 
 
+# CAMINO
 
-#---------------------------------------------------------------
 def rearmar_camino(padres, destino):
     logging.debug(" tp3.py - rearmar_camino()")
     p = Pila()
@@ -84,13 +81,7 @@ def camino_mas_corto(grafo, origen, destino):
     rearmar_camino(padres, destino)
     return True
 
-
-
-#---------------------------------------------------------------diametro: no anda
-
-
-
-#---------------------------------------------------------------todos en rango: LISTO
+# RANGO
 
 def bfs_tuneado(grafo, inicio, visitados, orden, n, res):
     orden[inicio] = 0
@@ -107,41 +98,17 @@ def bfs_tuneado(grafo, inicio, visitados, orden, n, res):
                     res.append(w)
                 visitados.add(w)
                 q.encolar(w)
-    return
 
-def todos_en_rango(grafo,pagina,rango):#O(V+E)
+
+
+def todos_en_rango(grafo,pagina,rango):
     visitados = set()
     orden = {}
     resultado = []
     bfs_tuneado(grafo,pagina,visitados,orden,rango,resultado)
     print(len(resultado))
     
-
-#---------------------------------------------------------------lectura 2 am: anda mal
-
-""" def _dfs(grafo, v, visitados, pila, lista):
-    visitados.add(v)
-    for w in grafo.adyacentes(v):
-        if w not in visitados and w in lista:
-            _dfs(grafo, w, visitados, pila, lista)
-    pila.apilar(v) # Apilo los vertices que no tienen adyacentes no visitados
-
-
-def topologico_dfs(grafo, lista):
-    visitados = set()
-    pila = Pila()
-    for v in grafo.obtener_vertices():
-        if v not in visitados and v in lista:
-            _dfs(grafo, v, visitados, pila, lista)
-    print(pila_a_lista(pila))
-
-
-def pila_a_lista(pila):
-    lista = []
-    while not pila.esta_vacia():
-        lista.append(pila.desapilar())
-    return lista """
-
+# LECTURA
 
 def imprimir_lectura(res_lec):
     if res_lec == None or len(res_lec) == 0:
@@ -152,23 +119,21 @@ def imprimir_lectura(res_lec):
     print(res_lec[0])
 
 
+
 def grados_entrada(grafo, lista):
     g_ent = {}
-    for v in grafo.obtener_vertices(): # podría hacer lista
-        if v in lista:
-            g_ent[v] = 0
-    for v in grafo.obtener_vertices():
-        if v not in lista:
-            continue
+    for v in lista: 
+        g_ent[v] = 0
+    for v in lista:
         for ady in grafo.adyacentes(v):
             if ady in lista:
                 g_ent[ady] += 1
     return g_ent
 
 
+
 def topologico_grados(grafo, lista):
     g_ent = grados_entrada(grafo, lista)
-    #print(g_ent)
     q = Cola()
     entra = False
 
@@ -194,24 +159,23 @@ def topologico_grados(grafo, lista):
         return None
     return resultado
 
+
+
 def lectura(grafo, paginas_str):
-    #print(paginas_str)
     if type(paginas_str) == str:
         paginas = list(paginas_str.split(","))
         for pag in paginas:
             logging.debug(f" tp3.py - lectura() - {pag} pertenece? {grafo.pertenece(pag)}")
-    #print(paginas)
-    if len(paginas) < 2:
-        raise IndexError ("Número de variables incorrecto en 'lectura'") 
 
     res = topologico_grados(grafo, paginas)
     imprimir_lectura(res)
 
-#---------------------------------------------------------------navegacion por primer link: LISTA
+# NAVEGACION
 
 def _navegacion(grafo,actual,orden):
+    max_len_nav = 20
     logging.debug(" tp3.py - _navegacion()")
-    if len(orden) > MAX_LEN_NAVEGACION:
+    if len(orden) > max_len_nav:
         return True 
     orden.append(actual)
     adyacentes = grafo.adyacentes(actual)
@@ -234,91 +198,7 @@ def navegacion(grafo,origen):
 
     return
 
-#--------------------------------------------------------------conectividad: EN PROCESO
-
-def conectividad(grafo, pagina, padres, sin_hijos):
-    contador = 0
-    for elem in grafo.obtener_vertices():
-        print(elem, end="")
-        if camino_mas_corto(grafo, elem, pagina):
-            contador += 1
-    print("Contador:", contador)
-
-""" def imprimir_lista(s):
-    pass
-
-
-def vert_to_obj(grafo, padres, solu, obj):
-    logging.debug(" tp3.py - vert_to_obj()")
-    for elem in solu:
-        actual = elem
-        while actual != None:
-            print(actual, end=" -> ")
-            actual = padres[actual]
-        #print("NUEVO ELEM")
-
-
-def bfs_con(grafo, pagina, padres, sin_hijos):
-    padres[pagina] = None
-    logging.debug(" tp3.py - bfs_con()")
-    q = Cola()
-    q.encolar(pagina)
-    visitados = set()
-    visitados.add(pagina)
-    soluciones = set()
-
-    while not q.esta_vacia():
-        v = q.desencolar()
-        for ady in grafo.adyacentes(v):
-            if ady not in visitados:
-                q.encolar(ady)
-                visitados.add(ady)
-                padres[ady] = v
-                if grafo.estan_unidos(ady, pagina):
-                    soluciones.add(ady)
-
-    largo = len(visitados)
-    print(f"len(visitados): {largo}")
-    return soluciones
-                
-
-
-def conectividad(grafo, pagina, padres, sin_hijos):
-    logging.debug(" tp3.py - conectividad()")
-    solu = bfs_con(grafo, pagina, padres, sin_hijos)
-    lista_sol = vert_to_obj(grafo, padres, solu, pagina)
-    imprimir_lista(solu) """
-
-#---------------------------------------------------------------comunidades: EN PROCESO
-
-"""Por cada vértice, en el orden determinado en el punto anterior, definir: Label[Vi]=max_freq(Label[Vj],...,Label[Vk])
-Donde Vj,...,VkVj,...,Vk son los vértices que tienen como adyacentes a Vi (ya que las Labels se están propagando). Para el caso de un grafo no dirigido, son los mismos adyacentes a Vi, pero en caso de un grafo dirigido se debe tener en cuenta las aristas de entrada. Se tiene en cuenta la última actualización realizada, inclusive si ya fueron procesados en esta iteración (actualización asincrónica). max_freq
-max_freq es una función que devuelve la Label que aparece más frecuentemente entre todos los adyacentes a Vi. En caso de empate, es igual cuál de los máximos devolver."""
-
-def max_freq(adyacentes,label):
-    contador = {}
-    for i in adyacentes:
-        contador[i] = label[i]
-
-
-
-def comunidades(grafo,pagina):
-    vertices = grafo.obtener_vertices()
-    label = {}
-    orden = []
-    for i in range(len(vertices)):
-        label[vertices[i]] = i
-        orden.append(vertices[i])
-
-
-    for i in orden:
-        adyacentes = grafo.adyacentes(i)
-        label[i] = max_freq(adyacentes,orden)
-    return
-
-
-#---------------------------------------------------------------clustering: LISTO
-
+# CLUSTERING
 
 def _clustering(grafo,vertice):
     adyacentes = grafo.adyacentes(vertice)
@@ -333,6 +213,7 @@ def _clustering(grafo,vertice):
 
     resultado = c/(grado_salida*(grado_salida-1))
     return resultado
+
 
 
 def clustering(grafo,vertice = None):
@@ -350,103 +231,3 @@ def clustering(grafo,vertice = None):
         c_general = c_general/len(vertices)
         print(round(c_general,3))
         return
-
-#---------------------------------------------------------------ciclo de n articulos: EN PROCESO
-
-"""
-# Copia ej coloreo
-def valido(grafo, vertice, coloreados):
-    for ady in grafo.adyacentes(vertice):
-        if ady in coloreados and coloreados[ady] == coloreados[vertice]: 
-            # Mira los ady del vertice buscando que dos adyacentes tengan el mismo color
-            return False
-    return True
-
-def _colorear(grafo, coloreados, n, vertices, ind):
-    if len(coloreados) == len(grafo.obtener_vertices()):
-        # Todos los vertices han sido coloreados
-        return True
-
-    nuevo_vertice = vertices[ind]
-    for i in range(n): # Probando cada color posible
-        coloreados[nuevo_vertice] = i # Asignando color a vertice en cuestion
-        if not valido(grafo, nuevo_vertice, coloreados):
-            del coloreados[nuevo_vertice]
-            continue
-        if _colorear(grafo, coloreados, n, vertices, ind + 1):
-            return True
-        del coloreados[nuevo_vertice]
-
-    return False
-
-def colorear(grafo, n):
-    coloreados = {}
-    vertices = grafo.obtener_vertices() # Lista de todos los vertices del grafo
-    # n -> numero que representa la cantidad de colores posibles
-    return _colorear(grafo, coloreados, n, vertices, 0)
-
-def no_adyacentes(grafo, n):
-    return colorear(grafo, n)
-"""
-def imprimir_ciclo(ciclo, objetivo):
-    print(objetivo, end="")
-    for key in ciclo:
-        print(" ->", key, end="")
-    print("")
-    
-
-def valido(grafo, objetivo, actual, n, iteracion, dead_end, padre):
-    if actual in dead_end:
-        logging.debug(f" tp3.py - valido() {actual} es DEAD END")
-        return False
-
-    if iteracion == n:
-        if actual == objetivo:
-            return True
-        return False
-
-    todos_dead_end = True
-    for ady in grafo.adyacentes(actual):
-        if ady == padre:
-            continue
-        if ady not in dead_end:
-            todos_dead_end = False
-            break
-    if todos_dead_end == True:
-        dead_end.add(actual)
-        logging.debug(f" tp3.py - valido() {actual} ahora es DEAD END")
-
-    if iteracion < n:
-        return True
-
-    return False
-
-def _ciclo(grafo, ciclo, n, objetivo, actual, lista, iter, dead_end):
-    logging.debug(f" tp3.py - _ciclo() {actual}")
-    if len(ciclo) == n: 
-        for key in ciclo:
-            pass
-        if key != objetivo:
-            return False
-        return True
-
-    for ady in grafo.adyacentes(actual):
-        ciclo[ady] = actual
-        if not valido(grafo,objetivo, ady, n, iter, dead_end, actual):
-            ciclo.pop(ady, None)
-            continue
-        if _ciclo(grafo, ciclo, n, objetivo, ady, lista, iter+1, dead_end):
-            return True
-        ciclo.pop(ady, None)
-
-    return False
-
-def ciclo(grafo, pagina, n):
-    logging.debug(" tp3.py - ciclo()")
-    ciclo = {}
-    dead_end = set()
-    _ciclo(grafo, ciclo, n, pagina, pagina, grafo.obtener_vertices(), 0, dead_end)
-    if ciclo != {}:
-        imprimir_ciclo(ciclo, pagina)
-    else: 
-        print("No se encontro recorrido")
