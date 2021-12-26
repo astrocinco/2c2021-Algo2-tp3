@@ -8,7 +8,7 @@ import logging
 if tp3.MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 else:
-    logging.basicConfig(level=logging.DEBUG) # Si no querés que aparezcan mensajes de debug cambía "DEBUG" por "WARNING" # https://www.youtube.com/watch?v=-ARI4Cz-awo
+    logging.basicConfig(level=logging.DEBUG) 
 
 
 
