@@ -15,12 +15,13 @@ else:
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
     # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓, camino ★✓
-    # HECHAS MAL: , lectura ★★, diametro ★
-    # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★, Ciclo ★★★ 
-    list_op = ["camino", "rango", "navegacion", "clustering", "ciclo"] # Esto va acá? O podría ir como variable global?
+    # HECHAS MAL: , lectura ★★, diametro ★, Ciclo ★★★
+    # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★,  
+    list_op = ["camino", "rango", "navegacion", "clustering", "conectados"] 
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
+    sin_hijos_con = {}
 
     if len(ingreso_terminal) != 2: # Tal vez no funcione si se ingresa comandos por ">" en terminal
         raise IndexError ("Número de variables incorrecto en 'ingreso_terminal'") 
@@ -72,7 +73,7 @@ def ciclo():
             param_con = list(str_c.split(","))
             if len(param_con) != 1:
                 raise IndexError ("Número de variables incorrecto en 'conectados'") 
-            tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad)
+            tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad, sin_hijos_con)
 
         elif input_terminal[0] == "clustering":
             str_clu = ' '.join(input_terminal[1:])

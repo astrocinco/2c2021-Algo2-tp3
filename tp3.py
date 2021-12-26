@@ -8,7 +8,7 @@ from grafo import Grafo
 from pilacola import Pila, Cola
 from collections import deque
 
-MOSTRAR_MSJ = False
+MOSTRAR_MSJ = True
 if MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 else:
@@ -172,9 +172,50 @@ def navegacion(grafo,origen):
     return
 
 #--------------------------------------------------------------conectividad: EN PROCESO
-
-def conectividad(grafo, pagina, padres):
+def imprimir_lista(s):
     pass
+
+
+def vert_to_obj(grafo, padres, solu, obj):
+    logging.debug(" tp3.py - vert_to_obj()")
+    for elem in solu:
+        actual = elem
+        while actual != None:
+            print(actual, end=" -> ")
+            actual = padres[actual]
+        #print("NUEVO ELEM")
+
+
+def bfs_con(grafo, pagina, padres, sin_hijos):
+    padres[pagina] = None
+    logging.debug(" tp3.py - bfs_con()")
+    q = Cola()
+    q.encolar(pagina)
+    visitados = set()
+    visitados.add(pagina)
+    soluciones = set()
+
+    while not q.esta_vacia():
+        v = q.desencolar()
+        for ady in grafo.adyacentes(v):
+            if ady not in visitados:
+                q.encolar(ady)
+                visitados.add(ady)
+                padres[ady] = v
+                if grafo.estan_unidos(ady, pagina):
+                    soluciones.add(ady)
+
+    largo = len(visitados)
+    print(f"len(visitados): {largo}")
+    return soluciones
+                
+
+
+def conectividad(grafo, pagina, padres, sin_hijos):
+    logging.debug(" tp3.py - conectividad()")
+    solu = bfs_con(grafo, pagina, padres, sin_hijos)
+    lista_sol = vert_to_obj(grafo, padres, solu, pagina)
+    imprimir_lista(solu)
 
 #---------------------------------------------------------------comunidades: EN PROCESO
 
@@ -299,6 +340,7 @@ def valido(grafo, objetivo, actual, n, iteracion, dead_end, padre):
             continue
         if ady not in dead_end:
             todos_dead_end = False
+            break
     if todos_dead_end == True:
         dead_end.add(actual)
         logging.debug(f" tp3.py - valido() {actual} ahora es DEAD END")
