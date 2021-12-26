@@ -2,6 +2,7 @@
 import heapq
 import csv
 import logging
+from os import POSIX_FADV_RANDOM, times_result
 from typing import Deque
 from grafo import Grafo
 from pilacola import Pila, Cola
@@ -82,28 +83,7 @@ def camino_mas_corto(grafo, origen, destino):
         return
     rearmar_camino(padres, destino)
 
-#---------------------------------------------------------------camino minimo: NO ANDA
 
-def caminos_minimos(grafo,origen,actual): 
-    cola = Cola()
-    distancia = {}
-    distancia[origen] = 0
-    visitados = set()
-    visitados.add(origen)
-    cola.encolar(origen)
-    camino = []
-    camino.append(origen)
-    while cola:
-        v = cola.desencolar()
-        for w in grafo.adyacentes(v):
-            if w not in visitados:
-                distancia[w] = distancia[v] + 1 
-                #+1 o +peso_arista
-
-                camino.append(w)
-                cola.encolar(w)
-                visitados.add(w)
-    return camino
 
 #---------------------------------------------------------------diametro: no anda
 
@@ -259,3 +239,101 @@ def clustering(grafo,vertice = None):
         print(round(c_general,3))
         return
 
+#---------------------------------------------------------------ciclo de n articulos: EN PROCESO
+
+"""
+# Copia ej coloreo
+def valido(grafo, vertice, coloreados):
+    for ady in grafo.adyacentes(vertice):
+        if ady in coloreados and coloreados[ady] == coloreados[vertice]: 
+            # Mira los ady del vertice buscando que dos adyacentes tengan el mismo color
+            return False
+    return True
+
+def _colorear(grafo, coloreados, n, vertices, ind):
+    if len(coloreados) == len(grafo.obtener_vertices()):
+        # Todos los vertices han sido coloreados
+        return True
+
+    nuevo_vertice = vertices[ind]
+    for i in range(n): # Probando cada color posible
+        coloreados[nuevo_vertice] = i # Asignando color a vertice en cuestion
+        if not valido(grafo, nuevo_vertice, coloreados):
+            del coloreados[nuevo_vertice]
+            continue
+        if _colorear(grafo, coloreados, n, vertices, ind + 1):
+            return True
+        del coloreados[nuevo_vertice]
+
+    return False
+
+def colorear(grafo, n):
+    coloreados = {}
+    vertices = grafo.obtener_vertices() # Lista de todos los vertices del grafo
+    # n -> numero que representa la cantidad de colores posibles
+    return _colorear(grafo, coloreados, n, vertices, 0)
+
+def no_adyacentes(grafo, n):
+    return colorear(grafo, n)
+"""
+def imprimir_ciclo(ciclo, objetivo):
+    print(objetivo, end="")
+    for key in ciclo:
+        print(" ->", key, end="")
+    print("")
+    
+
+def valido(grafo, objetivo, actual, n, iteracion, dead_end, padre):
+    if actual in dead_end:
+        logging.debug(f" tp3.py - valido() {actual} es DEAD END")
+        return False
+
+    if iteracion == n:
+        if actual == objetivo:
+            return True
+        return False
+
+    todos_dead_end = True
+    for ady in grafo.adyacentes(actual):
+        if ady == padre:
+            continue
+        if ady not in dead_end:
+            todos_dead_end = False
+    if todos_dead_end == True:
+        dead_end.add(actual)
+        logging.debug(f" tp3.py - valido() {actual} ahora es DEAD END")
+
+    if iteracion < n:
+        return True
+
+    return False
+
+def _ciclo(grafo, ciclo, n, objetivo, actual, lista, iter, dead_end):
+    logging.debug(f" tp3.py - _ciclo() {actual}")
+    if len(ciclo) == n: 
+        for key in ciclo:
+            pass
+        if key != objetivo:
+            return False
+        return True
+
+    for ady in grafo.adyacentes(actual):
+        ciclo[ady] = actual
+        if not valido(grafo,objetivo, ady, n, iter, dead_end, actual):
+            ciclo.pop(ady, None)
+            continue
+        if _ciclo(grafo, ciclo, n, objetivo, ady, lista, iter+1, dead_end):
+            return True
+        ciclo.pop(ady, None)
+
+    return False
+
+def ciclo(grafo, pagina, n):
+    logging.debug(" tp3.py - ciclo()")
+    ciclo = {}
+    dead_end = set()
+    _ciclo(grafo, ciclo, n, pagina, pagina, grafo.obtener_vertices(), 0, dead_end)
+    if ciclo != {}:
+        imprimir_ciclo(ciclo, pagina)
+    else: 
+        print("No se encontro recorrido")

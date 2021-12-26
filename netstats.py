@@ -14,10 +14,10 @@ else:
 
 def ciclo():
     logging.debug(" netstats.py - ciclo()")
-    # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓, camino ★
+    # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓, camino ★✓
     # HECHAS MAL: , lectura ★★, diametro ★
     # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★, Ciclo ★★★ 
-    list_op = ["camino", "rango", "navegacion", "clustering"] # Esto va acá? O podría ir como variable global?
+    list_op = ["camino", "rango", "navegacion", "clustering", "ciclo"] # Esto va acá? O podría ir como variable global?
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
@@ -51,7 +51,7 @@ def ciclo():
                 raise IndexError ("Número de variables incorrecto en 'rango'")
             tp3.todos_en_rango(grafo_netstats, param_ran[0], int(param_ran[1]))
 
-        elif input_terminal[0] == "diametro": # -- HACER --
+        elif input_terminal[0] == "diametro": 
             tp3.diametro(grafo_netstats)
 
         elif input_terminal[0] == "lectura":
@@ -74,15 +74,20 @@ def ciclo():
                 raise IndexError ("Número de variables incorrecto en 'conectados'") 
             tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad)
 
-
         elif input_terminal[0] == "clustering":
             str_clu = ' '.join(input_terminal[1:])
-
             if len(input_terminal) > 1:
                 tp3.clustering(grafo_netstats,str_clu)
             else:
                 tp3.clustering(grafo_netstats,None)
 
+        elif input_terminal[0] == "ciclo":
+            str_cic = ' '.join(input_terminal[1:])
+            param_cic = list(str_cic.split(","))
+            if len(param_cic) != 2:
+                raise IndexError ("Número de variables incorrecto en 'ciclo'") 
+            tp3.ciclo(grafo_netstats, param_cic[0], int(param_cic[1]))
+                
         else:
             print("El comando ingresado no existe. Inténtelo de nuevo")
 
