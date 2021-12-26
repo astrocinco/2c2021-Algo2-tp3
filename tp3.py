@@ -8,7 +8,7 @@ from grafo import Grafo
 from pilacola import Pila, Cola
 from collections import deque
 
-MOSTRAR_MSJ = True
+MOSTRAR_MSJ = False
 if MOSTRAR_MSJ == False:
     logging.basicConfig(level=logging.WARNING)
 else:
@@ -80,8 +80,9 @@ def camino_mas_corto(grafo, origen, destino):
     padres = bfs_camino(grafo, origen, destino)
     if padres == None:
         print("No se encontro recorrido")
-        return
+        return False
     rearmar_camino(padres, destino)
+    return True
 
 
 
@@ -118,31 +119,93 @@ def todos_en_rango(grafo,pagina,rango):#O(V+E)
 
 #---------------------------------------------------------------lectura 2 am: anda mal
 
+""" def _dfs(grafo, v, visitados, pila, lista):
+    visitados.add(v)
+    for w in grafo.adyacentes(v):
+        if w not in visitados and w in lista:
+            _dfs(grafo, w, visitados, pila, lista)
+    pila.apilar(v) # Apilo los vertices que no tienen adyacentes no visitados
+
+
+def topologico_dfs(grafo, lista):
+    visitados = set()
+    pila = Pila()
+    for v in grafo.obtener_vertices():
+        if v not in visitados and v in lista:
+            _dfs(grafo, v, visitados, pila, lista)
+    print(pila_a_lista(pila))
+
+
+def pila_a_lista(pila):
+    lista = []
+    while not pila.esta_vacia():
+        lista.append(pila.desapilar())
+    return lista """
+
+
+def imprimir_lectura(res_lec):
+    if res_lec == None or len(res_lec) == 0:
+        print("No existe forma de leer las paginas en orden")
+        return
+    for i in range(len(res_lec) -1, 0, -1):
+        print(res_lec[i], end=", ")
+    print(res_lec[0])
+
+
+def grados_entrada(grafo, lista):
+    g_ent = {}
+    for v in grafo.obtener_vertices(): # podría hacer lista
+        if v in lista:
+            g_ent[v] = 0
+    for v in grafo.obtener_vertices():
+        if v not in lista:
+            continue
+        for ady in grafo.adyacentes(v):
+            if ady in lista:
+                g_ent[ady] += 1
+    return g_ent
+
+
+def topologico_grados(grafo, lista):
+    g_ent = grados_entrada(grafo, lista)
+    #print(g_ent)
+    q = Cola()
+    entra = False
+
+    for v in g_ent.keys():
+        if g_ent[v] == 0:
+            q.encolar(v)
+            entra = True
+
+    resultado = []
+    if entra == False:
+        return None
+
+    while not q.esta_vacia():
+        v = q.desencolar()
+        resultado.append(v)
+        for ady in grafo.adyacentes(v):
+            if ady not in lista:
+                continue
+            g_ent[ady] -= 1
+            if g_ent[ady] == 0:
+                q.encolar(ady)
+    if len(resultado) != len(lista):
+        return None
+    return resultado
+
 def lectura(grafo, paginas_str):
+    #print(paginas_str)
     if type(paginas_str) == str:
         paginas = list(paginas_str.split(","))
         for pag in paginas:
             logging.debug(f" tp3.py - lectura() - {pag} pertenece? {grafo.pertenece(pag)}")
-    else: 
-        paginas = paginas_str
-    orden = []
+    #print(paginas)
+    if len(paginas) < 2:
+        raise IndexError ("Número de variables incorrecto en 'lectura'") 
 
-    #if len(paginas) < 2:
-    #    raise IndexError ("Numero de variables incorrecto en 'lectura'") 
-
-    for i in range(len(paginas)-1):
-        if grafo.estan_unidos(paginas[i+1],paginas[i]):
-            orden.append(paginas[i])
-            if i == (len(paginas)-2):
-                orden.append(paginas[len(paginas)-1])
-        else:
-            print("No existe forma de leer las paginas en orden")
-            return False
-    
-    for i in range(len(orden)-1):
-        print(orden[len(orden)-i-1],end=", ")
-    print(orden[0])
-    return True
+    res = topologico_grados(grafo, paginas)
+    imprimir_lectura(res)
 
 #---------------------------------------------------------------navegacion por primer link: LISTA
 
@@ -172,7 +235,16 @@ def navegacion(grafo,origen):
     return
 
 #--------------------------------------------------------------conectividad: EN PROCESO
-def imprimir_lista(s):
+
+def conectividad(grafo, pagina, padres, sin_hijos):
+    contador = 0
+    for elem in grafo.obtener_vertices():
+        print(elem, end="")
+        if camino_mas_corto(grafo, elem, pagina):
+            contador += 1
+    print("Contador:", contador)
+
+""" def imprimir_lista(s):
     pass
 
 
@@ -215,7 +287,7 @@ def conectividad(grafo, pagina, padres, sin_hijos):
     logging.debug(" tp3.py - conectividad()")
     solu = bfs_con(grafo, pagina, padres, sin_hijos)
     lista_sol = vert_to_obj(grafo, padres, solu, pagina)
-    imprimir_lista(solu)
+    imprimir_lista(solu) """
 
 #---------------------------------------------------------------comunidades: EN PROCESO
 
@@ -227,7 +299,6 @@ def max_freq(adyacentes,label):
     contador = {}
     for i in adyacentes:
         contador[i] = label[i]
-
 
 
 

@@ -17,7 +17,7 @@ def ciclo():
     # BIEN: rango ★✓, navegacion ★✓, clustering ★★✓, camino ★✓
     # HECHAS MAL: , lectura ★★, diametro ★, Ciclo ★★★
     # FALTAN: Conectividad ★★, Comunidades ★★, Pagerank ★★★,  
-    list_op = ["camino", "rango", "navegacion", "clustering", "conectados"] 
+    list_op = ["camino", "rango", "navegacion", "clustering", "lectura"] 
     continuar = True # Creo que while True sería mejor
     ingreso_terminal = sys.argv
     cfc_conectividad = {}
