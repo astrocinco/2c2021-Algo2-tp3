@@ -17,8 +17,6 @@ def ciclo():
     list_op = ["camino", "rango", "navegacion", "clustering", "lectura"] 
     continuar = True 
     ingreso_terminal = sys.argv
-    cfc_conectividad = {}
-    sin_hijos_con = {}
 
     grafo_netstats = tp3.tsv_to_vert(ingreso_terminal[1])
 
@@ -34,31 +32,20 @@ def ciclo():
             tp3.listar_operaciones(list_op)
 
         elif input_terminal[0] == "camino":
-            str_cf = ' '.join(input_terminal[1:])
-            param_cam = list(str_cf.split(","))
-            tp3.camino_mas_corto(grafo_netstats, param_cam[0], param_cam[1])
+            par = tp3.lista_to_param(input_terminal)
+            tp3.camino_mas_corto(grafo_netstats, par[0], par[1])
 
         elif input_terminal[0] == "rango":
-            str_pn = ' '.join(input_terminal[1:])
-            param_ran = list(str_pn.split(","))
-            tp3.todos_en_rango(grafo_netstats, param_ran[0], int(param_ran[1]))
-
-        elif input_terminal[0] == "diametro": 
-            tp3.diametro(grafo_netstats)
+            par = tp3.lista_to_param(input_terminal)
+            tp3.todos_en_rango(grafo_netstats, par[0], int(par[1]))
 
         elif input_terminal[0] == "lectura":
             str_lec = ' '.join(input_terminal[1:])
             tp3.lectura(grafo_netstats, str_lec)
 
         elif input_terminal[0] == "navegacion":
-            str_n = ' '.join(input_terminal[1:])
-            param_nav = list(str_n.split(","))
-            tp3.navegacion(grafo_netstats, param_nav[0])
-
-        elif input_terminal[0] == "conectados":
-            str_c = ' '.join(input_terminal[1:])
-            param_con = list(str_c.split(","))
-            tp3.conectividad(grafo_netstats, param_con[0], cfc_conectividad, sin_hijos_con)
+            par = tp3.lista_to_param(input_terminal)
+            tp3.navegacion(grafo_netstats, par[0])
 
         elif input_terminal[0] == "clustering":
             str_clu = ' '.join(input_terminal[1:])
@@ -66,11 +53,6 @@ def ciclo():
                 tp3.clustering(grafo_netstats,str_clu)
             else:
                 tp3.clustering(grafo_netstats,None)
-
-        elif input_terminal[0] == "ciclo":
-            str_cic = ' '.join(input_terminal[1:])
-            param_cic = list(str_cic.split(","))
-            tp3.ciclo(grafo_netstats, param_cic[0], int(param_cic[1]))
                 
         else:
             print("El comando ingresado no existe. Inténtelo de nuevo")

@@ -14,6 +14,12 @@ else:
 
 # FUNCIONES AUXILIARES
 
+def lista_to_param(lista):
+    str = ' '.join(lista[1:])
+    return list(str.split(","))
+
+
+
 def listar_operaciones(list_op):
      for func in list_op:
          print(func) 
